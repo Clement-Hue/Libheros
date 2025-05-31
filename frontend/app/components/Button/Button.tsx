@@ -4,11 +4,11 @@ import clsx from "clsx"
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
     ({ children, variant = "primary", className, ...props }: Props, ref) => {
-       const baseStyles = "rounded-md outline-none border-2 bg-none px-[6px] py-[4px] cursor-pointer hover:opacity-(--hover-opacity)";
+       const baseStyles = "rounded-md border-2 bg-none px-[6px] py-[4px] cursor-pointer hover:opacity-(--hover-opacity) ";
 
        const variantStyles = {
-          primary: "border-transparent bg-primary-500 active:bg-primary-600",
-          secondary: "border-primary-500 text-primary-500 active:border-primary-600 active:text-primary-600",
+          primary: "border-transparent outline-none text-primary-contrast-text bg-primary-500 active:bg-primary-600 focus:bg-primary-700",
+          secondary: "border-primary-500 text-primary-500 active:border-primary-800 active:text-primary-800 focus:outline-1 focus:border-primary-600 focus:text-primary-600",
           tertiary: "border-none text-primary-500 active:text-primary-600"
        };
 
