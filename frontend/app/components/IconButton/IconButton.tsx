@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from "clsx";
 
 const colors = {
-    primary: "text-primary-contrast-text bg-primary-400 active:bg-primary-500 focus:bg-primary-600",
+    primary: "text-primary-contrast-text bg-primary-500 active:bg-primary-600 focus:bg-primary-700",
     red: "text-red-contrast-text bg-red-400 active:bg-red-500 focus:bg-red-600",
 };
 

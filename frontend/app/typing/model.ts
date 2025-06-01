@@ -1,6 +1,8 @@
 
 export type Task = {
     id: string
+    date: Date
+    creationDate: Date
     name: string
     description: string
 }

@@ -38,4 +38,6 @@ export function makeTask(): Task {
         id: faker.string.uuid(),
         name: makeTaskName(),
         description: faker.lorem.sentence({min: 0, max: 15}),
+        date: faker.date.future(),
+        creationDate: faker.date.past(),
 }}

@@ -2,6 +2,7 @@
   "button": {
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
+    "delete": "Delete",
     "add-task-list": "Add list",
     "add-task": "Add task"
   },
@@ -25,6 +26,10 @@
     "already-have-account": "Already have an account ?"
   },
   "task": {
-    "all-task-list": "All Task List"
+    "all-task-list": "All Task List",
+    "short-description": "Short Description",
+    "long-description": "Description",
+    "due-date": "Due Date",
+    "creation-date": "Creation Date"
   }
 }

@@ -1,10 +1,8 @@
-import {FaArrowLeft, FaArrowRight, FaTrash} from "react-icons/fa";
-import { IoIosAddCircleOutline } from "react-icons/io";
-
+import {FaArrowLeft, FaArrowRight, FaTrash, FaPlus} from "react-icons/fa";
 
 
 export default {
-    Plus: IoIosAddCircleOutline,
+    Plus: FaPlus,
     LeftArrow: FaArrowLeft,
     RightArrow: FaArrowRight,
     Trash: FaTrash

@@ -11,13 +11,17 @@ function LeftBar({children, tasks, selectedTaskId}: Props) {
     const {t} = useTranslation()
     return (
         <div className={clsx(
-            "h-screen relative flex flex-col items-center py-8 bg-primary-400",
+            "container h-screen  relative flex flex-col items-center py-10 bg-primary-400",
             "transition-[width] duration-500 ease-in-out",
-            {"w-[5%]": !extended, "w-[15%]": extended}
+            {"w-13": !extended, "w-[15%]": extended}
         )}>
             {children}
             <IconButton onClick={() => setExtended(prev => !prev)} className="absolute top-2 -right-3 z-10"  Icon={extended ? Icon.LeftArrow : Icon.RightArrow} />
-           <Button className="shadow-md w-1/2 min-h-8" Icon={Icon.Plus} >{extended && t("button.add-task-list")}</Button>
+            {extended ? (
+                <Button className="shadow-md w-1/2" Icon={Icon.Plus} >{t("button.add-task-list")}</Button>
+            ): (
+                <IconButton className="h-11 w-11" Icon={Icon.Plus} />
+            )}
             {extended && (
                 <div className="container">
                     <div className="p-2 mt-4 truncate text-center text-primary-contrast-text">{t("task.all-task-list")}</div>
