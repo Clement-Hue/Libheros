@@ -2,10 +2,14 @@
   "button": {
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
-    "add-task-list": "Add list"
+    "add-task-list": "Add list",
+    "add-task": "Add task"
   },
   "label": {
     "mail": "Email",
+    "short-description": "Short Description",
+    "long-description": "Description",
+    "date": "Date",
     "password": "Password",
     "firstname": "First Name",
     "lastname": "Last Name",
@@ -14,7 +18,8 @@
   },
   "title": {
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "add-task": "Add Task"
   },
   "register": {
     "already-have-account": "Already have an account ?"

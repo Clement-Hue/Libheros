@@ -36,5 +36,6 @@ export function makeTaskList(): taskList {
 export function makeTask(): Task {
     return {
         id: faker.string.uuid(),
-        name: makeTaskName()
+        name: makeTaskName(),
+        description: faker.lorem.sentence({min: 0, max: 15}),
 }}
