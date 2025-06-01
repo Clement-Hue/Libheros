@@ -17,9 +17,12 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
                {...props}
                className={clsx(baseStyles, variantStyles[variant], className)}
                ref={ref}
+
            >
-               {Icon && <Icon />}
-              {children}
+               {Icon && <Icon className="shrink-0" />}
+               <div className="truncate overflow-hidden">
+                   {children}
+               </div>
            </button>
        );
     }
@@ -27,6 +30,6 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
    children?: React.ReactNode;
    variant?: "primary" | "secondary" | "tertiary";
-    Icon?: React.ComponentType;
+    Icon?: React.ComponentType<{className: string}>;
 };
 export default Button;

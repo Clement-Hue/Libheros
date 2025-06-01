@@ -1,11 +1,12 @@
 import React from 'react';
 import {LeftBar} from "~/components";
-import {makeTask} from "~/core/factories";
+import {makeTaskList} from "~/core/factories";
+import {faker} from "@faker-js/faker";
 
 function Container(props) {
     return (
         <div>
-            <LeftBar tasks={[makeTask(), makeTask()]} />
+            <LeftBar tasks={faker.helpers.multiple(makeTaskList, {count: 10})} />
         </div>
     );
 }

@@ -2,7 +2,7 @@
   "button": {
     "sign-in": "Sign In",
     "sign-up": "Sign Up",
-    "add-task-list": "Add task list"
+    "add-task-list": "Add list"
   },
   "label": {
     "mail": "Email",
@@ -20,7 +20,6 @@
     "already-have-account": "Already have an account ?"
   },
   "task": {
-    "all-task-list": "All Task List",
-    "list": "list {{number}}"
+    "all-task-list": "All Task List"
   }
 }
