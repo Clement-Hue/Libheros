@@ -17,7 +17,6 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
                {...props}
                className={clsx(baseStyles, variantStyles[variant], className)}
                ref={ref}
-
            >
                {Icon && <Icon className="shrink-0" />}
                <div className="truncate overflow-hidden">
