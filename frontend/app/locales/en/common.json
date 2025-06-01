@@ -1,15 +1,25 @@
 {
   "button": {
     "sign-in": "Sign In",
-    "sign-up": "Sign Up"
+    "sign-up": "Sign Up",
+    "add-task": "Add Task"
   },
   "label": {
-    "username": "Username",
+    "mail": "Email",
     "password": "Password",
-    "confirm-password": "Confirm Password"
+    "firstname": "First Name",
+    "lastname": "Last Name",
+    "confirm-password": "Confirm Password",
+    "confirm-mail": "Confirm Email"
   },
   "title": {
     "login": "Login",
     "register": "Register"
+  },
+  "register": {
+    "already-have-account": "Already have an account ?"
+  },
+  "task": {
+    "all-task-list": "All Task List"
   }
 }
