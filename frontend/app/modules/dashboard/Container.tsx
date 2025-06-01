@@ -4,7 +4,7 @@ import {LeftBar} from "~/components";
 function Container(props) {
     return (
         <div>
-            <LeftBar/>
+            <LeftBar />
         </div>
     );
 }

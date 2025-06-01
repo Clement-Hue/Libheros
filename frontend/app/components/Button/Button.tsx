@@ -4,7 +4,7 @@ import clsx from "clsx"
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
     ({ children, variant = "primary", className, Icon, ...props }: Props, ref) => {
-       const baseStyles = "flex flex-row items-center gap-1 rounded-md border-2 bg-none px-[6px] py-[4px] cursor-pointer hover:opacity-(--hover-opacity) ";
+       const baseStyles = "flex flex-row items-center justify-center gap-1 rounded-md border-2 bg-none px-[6px] py-[4px] cursor-pointer hover:opacity-(--hover-opacity) ";
 
        const variantStyles = {
           primary: "border-transparent outline-none text-primary-contrast-text bg-primary-500 active:bg-primary-600 focus:bg-primary-700",
