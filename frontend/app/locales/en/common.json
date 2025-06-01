@@ -20,6 +20,7 @@
     "already-have-account": "Already have an account ?"
   },
   "task": {
-    "all-task-list": "All Task List"
+    "all-task-list": "All Task List",
+    "list": "list {{number}}"
   }
 }

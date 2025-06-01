@@ -14,13 +14,13 @@ function LeftBar({children, tasks, selectedTaskId}: Props) {
             <IconButton className="absolute top-2 -right-3"  Icon={Icon.LeftArrow} />
            <Button className="shadow-md w-1/2" Icon={Icon.Plus} >{t("button.add-task-list")}</Button>
             <div className="p-2 mt-4 text-center text-primary-contrast-text">{t("task.all-task-list")}</div>
-            <List className="w-full">
-                {tasks?.map(({name, id}) => (
-                    <List.Item >
-                        <button className={clsx("p-2 w-full cursor-pointer bg-primary-300 text-primary-contrast-text hover:opacity-(--hover-opacity)",
-                            {"bg-primary-600": selectedTaskId === id}
+            <List className="w-full divide-y-2 divide-primary-600">
+                {tasks?.map(({id}, index) => (
+                    <List.Item key={id} >
+                        <button className={clsx("p-2 w-full cursor-pointer bg-primary-500 text-primary-contrast-text hover:opacity-(--hover-opacity)",
+                            {"bg-primary-300": selectedTaskId === id}
                         )}>
-                            {name}</button>
+                            {t("task.list", {number: index})}</button>
                     </List.Item>
                 ))}
             </List>
