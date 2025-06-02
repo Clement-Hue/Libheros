@@ -4,7 +4,8 @@
     "sign-up": "Sign Up",
     "delete": "Delete",
     "add-task-list": "Add list",
-    "add-task": "Add task"
+    "add-task": "Add task",
+    "expand": "Expand"
   },
   "label": {
     "mail": "Email",

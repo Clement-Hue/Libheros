@@ -17,8 +17,8 @@ function RightBar({task}: Props) {
             "transition-[width] duration-500 ease-in-out",
                 {"w-[15%]": !!task, "w-0": !task}) }>
             {sections.map(({name, value}) => (
-                <div className="flex flex-col items-center gap-1">
-                    <div key={name} className="text-white text-center underline text-md font-semibold">
+                <div key={name} className="flex flex-col items-center gap-1">
+                    <div className="text-white text-center underline text-md font-semibold">
                         {name}
                     </div>
                     <div className="text-center">
