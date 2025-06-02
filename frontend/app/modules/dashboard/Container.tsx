@@ -5,10 +5,13 @@ import RightBar from "./RightBar";
 import {useServices} from "~/core/hooks";
 import useFetch from "~/core/hooks/useFetch";
 import DeleteTaskListModal from "~/modules/dashboard/DeleteTaskListModal";
+import AddTaskListModal from "~/modules/dashboard/AddTaskListModal";
+import {generateId} from "~/core/utils";
 
 function Container(props) {
     const {api} = useServices()
     const [deleteTaskListId, setDeleteTaskListId] = useState<string>()
+    const [showAddTaskListModal, setShowAddTaskListModal] = useState(false)
     const [selectedTaskId, setSelectedTaskId] = useState<string>()
     const [activeTaskListId, setActiveTaskListId] = useState<string>()
     const {data: taskLists, setData} = useFetch({query: () => api.getTaskList()})
@@ -27,10 +30,19 @@ function Container(props) {
             setDeleteTaskListId(undefined);
         }
     }
+    const handleAddList = async  ({name}: {name: string}) => {
+       try {
+           const newList = await api.addTaskList({name, id: generateId()})
+           setData((prev = []) => [...prev, newList])
+       } finally {
+           setShowAddTaskListModal(false)
+       }
+    }
     return (
         <div className="flex flex-row gap-4">
             <DeleteTaskListModal onDelete={handleDeleteTaskList} isOpen={!!deleteTaskListId} onClose={() => setDeleteTaskListId(undefined)}/>
-            <LeftBar onDeleteListClick={(taskListId) => setDeleteTaskListId(taskListId)} onListClick={handleTaskListClick} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
+            <AddTaskListModal taskListNames={taskLists?.map((m) => m.name)} onAdd={handleAddList} isOpen={showAddTaskListModal} onClose={() => setShowAddTaskListModal(false)} />
+            <LeftBar onAddTaskList={() => setShowAddTaskListModal(true)} onDeleteListClick={(taskListId) => setDeleteTaskListId(taskListId)} onListClick={handleTaskListClick} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
             <MainContent selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
             <RightBar task={task} />
         </div>

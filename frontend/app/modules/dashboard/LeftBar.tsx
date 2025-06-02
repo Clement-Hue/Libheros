@@ -6,7 +6,7 @@ import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import clsx from "clsx";
 
-function LeftBar({children, taskLists, selectedTaskListId, onListClick, onDeleteListClick}: Props) {
+function LeftBar({children, taskLists, onAddTaskList, selectedTaskListId, onListClick, onDeleteListClick}: Props) {
     const [expanded, setExpanded] = useState(true)
     const {t} = useTranslation()
     return (
@@ -18,9 +18,9 @@ function LeftBar({children, taskLists, selectedTaskListId, onListClick, onDelete
             {children}
             <IconButton aria-label={t("button.expand")} onClick={() => setExpanded(prev => !prev)} className="absolute top-2 -right-3 z-10"  Icon={expanded ? Icon.LeftArrow : Icon.RightArrow} />
             {expanded ? (
-                <Button className="shadow-md w-1/2" Icon={Icon.Plus} >{t("button.add-task-list")}</Button>
+                <Button onClick={onAddTaskList} className="shadow-md w-1/2" Icon={Icon.Plus} >{t("button.add-task-list")}</Button>
             ): (
-                <IconButton className="h-11 w-11" Icon={Icon.Plus} />
+                <IconButton onClick={onAddTaskList} className="h-11 w-11" Icon={Icon.Plus} />
             )}
             {expanded && (
                 <div className="container">
@@ -46,6 +46,7 @@ function LeftBar({children, taskLists, selectedTaskListId, onListClick, onDelete
 
 type Props = React.PropsWithChildren & {
     taskLists?: TaskList[]
+    onAddTaskList?: () => void
     selectedTaskListId?: string
     onListClick?: (taskListId: string) => void
     onDeleteListClick?: (taskListId: string) => void

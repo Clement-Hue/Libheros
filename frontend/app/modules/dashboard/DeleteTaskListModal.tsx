@@ -9,7 +9,7 @@ function DeleteTaskListModal({isOpen, onClose, onDelete}: Props) {
             {t("modal.delete-task-list")}
             <div className="flex flex-row gap-2 self-end">
                 <Button onClick={onClose} variant="secondary">{t("button.cancel")}</Button>
-                <Button onClick={onDelete}>{t("button.delete")}</Button>
+                <Button variant="destructive" onClick={onDelete}>{t("button.delete")}</Button>
             </div>
         </Modal>
     );

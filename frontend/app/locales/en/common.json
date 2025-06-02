@@ -10,6 +10,7 @@
     "expand": "Expand"
   },
   "label": {
+    "task-list-name": "Task list name",
     "mail": "Email",
     "short-description": "Short Description",
     "long-description": "Description",
@@ -43,7 +44,8 @@
   },
   "error": {
     "list": {
-        "not-found": "List not found"
+        "not-found": "List not found",
+        "name-exist": "A task list with this name already exists"
     }
   }
 }

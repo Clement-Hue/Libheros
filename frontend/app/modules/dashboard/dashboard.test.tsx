@@ -112,4 +112,23 @@ describe('dashboard', () => {
             expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
         })
     })
+
+    it("should add task list", async () => {
+        const user = userEvent.setup()
+        const api = new ApiMock()
+        jest.spyOn(api, "addTaskList")
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "button.add-task-list"}))
+        await waitFor(() => {
+            expect(screen.getByRole("dialog")).toBeInTheDocument();
+        })
+        const dialog = within(screen.getByRole("dialog"))
+        await user.type(await screen.findByLabelText(/label.task-list-name/i), "new list")
+        await user.click(dialog.getByRole("button", {name: "button.add-task-list"}))
+        await waitFor(() => {
+            expect(api.addTaskList).toHaveBeenCalledWith({name: "new list", id: expect.any(String)})
+            expect(screen.getByText("new list")).toBeInTheDocument();
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        })
+    })
 });

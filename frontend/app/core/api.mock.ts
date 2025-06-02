@@ -19,4 +19,13 @@ export default class ApiMock implements IApi {
     async deleteTaskList(args: { listId: string }): Promise<void> {
         this.taskList = this.taskList.filter((l) => l.id !== args.listId);
     }
+
+    async addTaskList({name, id}: { name: string; id: string }): Promise<TaskList> {
+        const newList = {tasks: [], id, name};
+        if (this.taskList.some(i => i.name === name)) {
+            throw new ApiError("list.name-exist");
+        }
+        this.taskList = [...this.taskList, newList]
+        return newList
+    }
 }
