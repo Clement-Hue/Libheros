@@ -7,6 +7,7 @@ export interface IApi {
     getTasks(args: {listId: string}): Promise<Task[]>
     deleteTaskList(args: {listId: string}): Promise<void>
     addTaskList(args: {name: string, id: string}): Promise<TaskList>
+    deleteTask(args: {taskId: string}): Promise<void>
 }
 
 export type ErrorCode = ParseKeys<"common", {}, "error">

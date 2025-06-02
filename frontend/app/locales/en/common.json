@@ -4,6 +4,7 @@
     "sign-up": "Sign Up",
     "delete": "Delete",
     "delete-task-list": "Delete task list",
+    "delete-task": "Delete task",
     "cancel": "Cancel",
     "add-task-list": "Add list",
     "add-task": "Add task",
@@ -40,7 +41,8 @@
     "no-list-selected": "No task list selected"
   },
   "modal": {
-    "delete-task-list": "Are you sure to delete this task list (all related tasks will be deleted)? "
+    "delete-task-list": "Are you sure to delete this task list (all related tasks will be deleted) ?",
+    "delete-task": "Are you sure to delete this task ?"
   },
   "error": {
     "list": {

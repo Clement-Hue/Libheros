@@ -131,4 +131,27 @@ describe('dashboard', () => {
             expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
         })
     })
+    
+    it("should delete a task", async () => {
+        const user = userEvent.setup()
+        const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [
+                makeTask({name: "task 1", id: "task-id", completed: false, description: "description 1"}),
+                makeTask({name: "task 2", completed: false}),
+            ] })])
+        jest.spyOn(api, "deleteTask")
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "list 1"}))
+        await user.click(screen.getByRole("listitem", {name: "task 1"}))
+        await user.click(screen.getByRole("button", {name: "button.delete-task"}))
+        await waitFor(() => {
+            expect(screen.getByRole("dialog")).toBeInTheDocument();
+        })
+        const dialog = within(screen.getByRole("dialog"))
+        await user.click(dialog.getByRole("button", {name: "button.delete"}))
+        await waitFor(() => {
+            expect(api.deleteTask).toHaveBeenCalledWith({taskId: "task-id" })
+            expect(screen.queryByText("task 1")).not.toBeInTheDocument()
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        })
+    })
 });

@@ -1,5 +1,6 @@
 import {ApiError, IApi} from "~/typing/app";
 import {Task, TaskList} from "~/typing/model";
+import {name} from "ci-info";
 
 export default class ApiMock implements IApi {
     constructor(private taskList: TaskList[] = []) {}
@@ -27,5 +28,19 @@ export default class ApiMock implements IApi {
         }
         this.taskList = [...this.taskList, newList]
         return newList
+    }
+
+    async deleteTask(args: { taskId: string }): Promise<void> {
+        const taskList = this.taskList.find(list => list.tasks.some(task => task.id === args.taskId));
+        if (!taskList) {
+            throw new ApiError("list.not-found");
+        }
+        this.taskList = this.taskList.map((list) => {
+            if (list.id !== taskList.id) return list;
+            return {
+                ...list,
+                tasks: list.tasks.filter(task => task.id !== args.taskId)
+            }
+        })
     }
 }
