@@ -32,5 +32,10 @@
     "long-description": "Description",
     "due-date": "Due Date",
     "creation-date": "Creation Date"
+  },
+  "error": {
+    "list": {
+        "not-found": "List not found"
+    }
   }
 }

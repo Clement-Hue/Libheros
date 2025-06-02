@@ -7,8 +7,8 @@ export type Task = {
     description: string
 }
 
-export type taskList = {
+export type TaskList = {
     id: string
     name: string
-    tasks?: Task[]
+    tasks: Task[]
 }

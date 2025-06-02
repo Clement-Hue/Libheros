@@ -9,7 +9,7 @@ function Container(props) {
         <Card className="gap-8">
             <div className="text-xl text-center font-bold underline">{t("title.register")}</div>
             <div className="flex flex-col">
-                <Input required label={t("label.firstname")}/>
+                <Input autoFocus required label={t("label.firstname")}/>
                 <Input required label={t("label.lastname")}/>
                 <Input required label={t("label.mail")}/>
                 <Input required label={t("label.confirm-mail")}/>

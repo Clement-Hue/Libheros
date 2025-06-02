@@ -1,4 +1,4 @@
-import type {Task, taskList} from "~/typing/model";
+import type {Task, TaskList} from "~/typing/model";
 import {faker} from "@faker-js/faker"
 
 function makeTaskName() {
@@ -25,19 +25,21 @@ function makeTaskListName() {
     return `${prefix}: ${topic}`;
 }
 
-export function makeTaskList(): taskList {
+export function makeTaskList(override?: Partial<TaskList>): TaskList {
     return {
         id: faker.string.uuid(),
         name: makeTaskListName(),
-        tasks: faker.helpers.multiple(makeTask, {count: {min: 0, max: 10}})
+        tasks: faker.helpers.multiple(() => makeTask(), {count: {min: 0, max: 10}}),
+        ...override
     }
 }
 
-export function makeTask(): Task {
+export function makeTask(override?: Partial<Task>): Task {
     return {
         id: faker.string.uuid(),
         name: makeTaskName(),
         description: faker.lorem.sentence({min: 0, max: 15}),
         date: faker.date.future(),
         creationDate: faker.date.past(),
+        ...override
 }}

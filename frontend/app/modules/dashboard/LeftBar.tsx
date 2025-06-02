@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Button, List} from "~/components";
-import type {Task, taskList} from "~/typing/model";
+import type {Task, TaskList} from "~/typing/model";
 import {useTranslation} from "react-i18next";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
@@ -44,7 +44,7 @@ function LeftBar({children, tasks, selectedTaskId}: Props) {
 }
 
 type Props = React.PropsWithChildren & {
-    tasks?: taskList[]
+    tasks?: TaskList[]
     selectedTaskId?: string
 }
 
