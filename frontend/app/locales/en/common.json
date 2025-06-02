@@ -33,7 +33,8 @@
     "due-date": "Due Date",
     "creation-date": "Creation Date",
     "active-tasks": "Active tasks",
-    "completed-tasks": "Completed tasks"
+    "completed-tasks": "Completed tasks",
+    "no-list-selected": "No task list selected"
   },
   "error": {
     "list": {

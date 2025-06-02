@@ -26,6 +26,14 @@ describe('dashboard', () => {
         })
     })
 
+    it("should show no task list selected", async () => {
+        const api = new ApiMock([makeTaskList({ name: "list 1" }), makeTaskList({name: "list 2"})])
+        customRender(<Container/>, { services: {api} })
+        await waitFor(() => {
+            expect(screen.getByText("task.no-list-selected"))
+        })
+    })
+
     it("should show tasks of selected list", async () => {
         const user = userEvent.setup()
         const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [
@@ -49,6 +57,26 @@ describe('dashboard', () => {
             expect(screen.getByRole("button", {name: "list 1"})).toHaveAttribute("aria-selected", "false")
             expect(screen.queryByText("task 1")).not.toBeInTheDocument();
             expect(screen.queryByText("task 2")).not.toBeInTheDocument();
+        })
+    })
+
+    it("should show completed tasks of selected list", async () => {
+        const user = userEvent.setup()
+        const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [
+                makeTask({name: "task 1", completed: true}),
+                makeTask({name: "task 2", completed: false}),
+            ] })])
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "list 1"}))
+        await user.click(screen.getByRole("tab", {name: "task.completed-tasks"}))
+        await waitFor(() => {
+            expect(screen.getByText("task 1")).toBeVisible()
+            expect(screen.getByText("task 2")).not.toBeVisible()
+        })
+        await user.click(screen.getByRole("tab", {name: "task.active-tasks"}))
+        await waitFor(() => {
+            expect(screen.getByText("task 2")).toBeVisible()
+            expect(screen.getByText("task 1")).not.toBeVisible()
         })
     })
 });

@@ -14,15 +14,16 @@ function TabList({active, tabs, onTabChange}: Props) {
                    <Tab key={tab} aria-controls={`panel_${tab}`} onClick={() => onTabChange?.(tab)} tabIndex={active === tab ? 0 : -1} aria-selected={tab === active} id={tab}
                         className={clsx(
                             "px-4 py-2 cursor-pointer hover:opacity-(--hover-opacity)",
-                            {"bg-white": active !== tab, "bg-primary-400": active === tab},
-                            {"text-black": active !== tab, "text-primary-contrast-text": active === tab},
+                            {"bg-white text-black underline font-semibold": active === tab, "bg-primary-400 text-primary-contrast-text": active !== tab},
                         )}
                    >{t(tab)}</Tab>
                 ))}
             </div>
             <div>
                 {tabs.map(({tab, content}) => (
-                   <TabPanel key={tab} aria-labelledby={tab} id={`panel_${tab}`} hidden={active !== tab}>
+                   <TabPanel className={clsx(
+                       {"hidden": active !== tab, "block": active === tab}
+                   )} key={tab} aria-labelledby={tab} id={`panel_${tab}`} hidden={active !== tab}>
                        {content}
                    </TabPanel>
                 ))}

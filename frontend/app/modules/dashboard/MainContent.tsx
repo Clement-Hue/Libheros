@@ -1,18 +1,18 @@
 import React from 'react';
 import {Button, Card, Input, List, Tabs} from "~/components";
 import {useTranslation} from "react-i18next";
-import {Task} from "~/typing/model";
+import {Task, TaskList} from "~/typing/model";
 import {ParseKeys} from "i18next";
 
-function MainContent({tasks}: Props) {
+function MainContent({taskList}: Props) {
     const {t} = useTranslation()
     const [activeTab, setActiveTab] = React.useState("task.active-tasks");
     const tabs = [
         {tab: "task.active-tasks" as ParseKeys<"common">, content: (
                 <Card className="w-full">
                     <List>
-                        {tasks?.map((task) => (
-                            <List.Item key={task.id} >{task.name}</List.Item>
+                        {taskList?.tasks?.filter(t => !t.completed).map((task) => (
+                            <List.Item className="px-4 py-2 cursor-pointer hover:bg-gray-100" key={task.id} >{task.name}</List.Item>
                         ))}
                     </List>
                 </Card>
@@ -20,8 +20,8 @@ function MainContent({tasks}: Props) {
         {tab: "task.completed-tasks" as ParseKeys<"common">, content: (
                 <Card className="w-full">
                     <List>
-                        {tasks?.map((task) => (
-                            <List.Item key={task.id} >{task.name}</List.Item>
+                        {taskList?.tasks?.filter(t => t.completed).map((task) => (
+                            <List.Item className="px-4 py-2 cursor-pointer hover:bg-gray-100" key={task.id} >{task.name}</List.Item>
                         ))}
                     </List>
                 </Card>
@@ -38,13 +38,17 @@ function MainContent({tasks}: Props) {
                 </div>
                 <Button type="submit">{t("button.add-task")}</Button>
             </form>
-            <Tabs onTabChange={setActiveTab} active={activeTab} tabs={tabs}/>
+            {!taskList ? (
+                <div className="text-center text-md font-semibold">{t("task.no-list-selected")}</div>
+            ): (
+                <Tabs onTabChange={setActiveTab} active={activeTab} tabs={tabs}/>
+            )}
         </div>
     );
 }
 
 type Props = {
-    tasks?: Task[]
+    taskList?: TaskList
 }
 
 export default MainContent;

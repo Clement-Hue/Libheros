@@ -15,7 +15,7 @@ function Container(props) {
     return (
         <div className="flex flex-row gap-4">
             <LeftBar onListClick={(id) => setActiveTaskListId((prev) => prev !== id ? id : undefined)} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
-            <MainContent tasks={activeTaskList?.tasks}/>
+            <MainContent taskList={activeTaskList}/>
             <RightBar task={task} />
         </div>
     );
