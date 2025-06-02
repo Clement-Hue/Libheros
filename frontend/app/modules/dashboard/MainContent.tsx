@@ -3,6 +3,8 @@ import {Button, Card, Input, List, Tabs} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Task, TaskList} from "~/typing/model";
 import {ParseKeys} from "i18next";
+import TaskItem from "~/modules/dashboard/TaskItem";
+import Icon from "~/components/Icon";
 
 function MainContent({taskList}: Props) {
     const {t} = useTranslation()
@@ -12,7 +14,7 @@ function MainContent({taskList}: Props) {
                 <Card className="w-full">
                     <List>
                         {taskList?.tasks?.filter(t => !t.completed).map((task) => (
-                            <List.Item className="px-4 py-2 cursor-pointer hover:bg-gray-100" key={task.id} >{task.name}</List.Item>
+                            <List.Item key={task.id} ><TaskItem iconButtonProps={{color: "green", Icon: Icon.Validate}} >{task.name}</TaskItem></List.Item>
                         ))}
                     </List>
                 </Card>
@@ -21,14 +23,14 @@ function MainContent({taskList}: Props) {
                 <Card className="w-full">
                     <List>
                         {taskList?.tasks?.filter(t => t.completed).map((task) => (
-                            <List.Item className="px-4 py-2 cursor-pointer hover:bg-gray-100" key={task.id} >{task.name}</List.Item>
+                            <List.Item key={task.id} ><TaskItem iconButtonProps={{Icon: Icon.Restore}} >{task.name}</TaskItem></List.Item>
                         ))}
                     </List>
                 </Card>
             )}
     ]
     return (
-        <div className="mx-auto flex flex-col gap-4">
+        <div className="mx-auto flex flex-col gap-4 py-4">
             <form className="flex flex-col items-start">
                 <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
                 <div className="flex flex-row flex-wrap gap-2">

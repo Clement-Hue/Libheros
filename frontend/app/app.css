@@ -16,6 +16,7 @@
   --color-primary-950: oklch(0.220 0.045 230);
   --color-primary-contrast-text: var(--color-white);
   --color-red-contrast-text: var(--color-white);
+  --color-green-contrast-text: var(--color-white);
   --hover-opacity: 0.80;
 }
 
