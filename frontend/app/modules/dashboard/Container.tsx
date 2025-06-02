@@ -8,6 +8,7 @@ import DeleteTaskListModal from "~/modules/dashboard/DeleteTaskListModal";
 import AddTaskListModal from "~/modules/dashboard/AddTaskListModal";
 import {generateId} from "~/core/utils";
 import DeleteTaskModal from "~/modules/dashboard/DeleteTaskModal";
+import {Task} from "~/typing/model";
 
 function Container() {
     const {api} = useServices()
@@ -55,13 +56,35 @@ function Container() {
             setShowDeleteTaskModal(false)
        }
     }
+
+    const handleComplete = async (task: Task) => {
+        await api.updateTask({task: {...task, completed: true}})
+        setData((prev = []) => prev.map((list) => {
+            if (list.id !== activeTaskListId) return list;
+            return {
+                ...list,
+                tasks: list.tasks.map((t) => t.id !== task.id ? t : {...task, completed: true})
+            }
+        }))
+    }
+
+    const handleRestore = async (task: Task) => {
+        await api.updateTask({task: {...task, completed: false}})
+        setData((prev = []) => prev.map((list) => {
+            if (list.id !== activeTaskListId) return list;
+            return {
+                ...list,
+                tasks: list.tasks.map((t) => t.id !== task.id ? t : {...task, completed: false})
+            }
+        }))
+    }
     return (
         <div className="flex flex-row gap-4">
             <DeleteTaskListModal onDelete={handleDeleteTaskList} isOpen={!!deleteTaskListId} onClose={() => setDeleteTaskListId(undefined)}/>
             <DeleteTaskModal onDelete={handleDeleteTask} isOpen={showDeleteTaskModal} onClose={() => setShowDeleteTaskModal(false)} />
             <AddTaskListModal taskListNames={taskLists?.map((m) => m.name)} onAdd={handleAddList} isOpen={showAddTaskListModal} onClose={() => setShowAddTaskListModal(false)} />
             <LeftBar onAddTaskList={() => setShowAddTaskListModal(true)} onDeleteListClick={(taskListId) => setDeleteTaskListId(taskListId)} onListClick={handleTaskListClick} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
-            <MainContent selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
+            <MainContent onRestore={handleRestore} onComplete={handleComplete} selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
             <RightBar onDeleteTask={() => setShowDeleteTaskModal(true)} task={task} />
         </div>
     );

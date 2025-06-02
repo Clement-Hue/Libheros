@@ -5,6 +5,8 @@
     "delete": "Delete",
     "delete-task-list": "Delete task list",
     "delete-task": "Delete task",
+    "complete-task": "Complete task",
+    "restore-task": "Restore task",
     "cancel": "Cancel",
     "add-task-list": "Add list",
     "add-task": "Add task",

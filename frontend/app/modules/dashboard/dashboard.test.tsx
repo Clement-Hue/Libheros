@@ -88,9 +88,9 @@ describe('dashboard', () => {
             ] })])
         customRender(<Container/>, { services: {api} })
         await user.click(await screen.findByRole("button", {name: "list 1"}))
-        await user.click(screen.getByRole("listitem", {name: "task 1"}))
+        await user.click(screen.getByRole("button", {name: "task 1"}))
         await waitFor(() => {
-            expect(screen.getByRole("listitem", {name: "task 1"})).toHaveAttribute("aria-selected", "true")
+            expect(screen.getByRole("button", {name: "task 1"})).toHaveAttribute("aria-selected", "true")
             expect(screen.getByText("description 1")).toBeInTheDocument()
         })
     })
@@ -141,7 +141,7 @@ describe('dashboard', () => {
         jest.spyOn(api, "deleteTask")
         customRender(<Container/>, { services: {api} })
         await user.click(await screen.findByRole("button", {name: "list 1"}))
-        await user.click(screen.getByRole("listitem", {name: "task 1"}))
+        await user.click(screen.getByRole("button", {name: "task 1"}))
         await user.click(screen.getByRole("button", {name: "button.delete-task"}))
         await waitFor(() => {
             expect(screen.getByRole("dialog")).toBeInTheDocument();
@@ -152,6 +152,37 @@ describe('dashboard', () => {
             expect(api.deleteTask).toHaveBeenCalledWith({taskId: "task-id" })
             expect(screen.queryByText("task 1")).not.toBeInTheDocument()
             expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+        })
+    })
+
+    it("should complete a task", async () => {
+        const user = userEvent.setup()
+        const task = makeTask({name: "task 1", completed: false, description: "description 1"})
+        const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [ task ] })])
+        jest.spyOn(api, "updateTask")
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "list 1"}))
+        await user.click(screen.getByRole("button", {name: "button.complete-task"}))
+        await waitFor(() => {
+            expect(api.updateTask).toHaveBeenCalledWith({
+                task: {...task, completed: true}
+            })
+        })
+    })
+
+    it("should restore a task", async () => {
+        const user = userEvent.setup()
+        const task = makeTask({name: "task 1", completed: true, description: "description 1"})
+        const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [ task ] })])
+        jest.spyOn(api, "updateTask")
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "list 1"}))
+        await user.click(screen.getByRole("tab", {name: "task.completed-tasks"}))
+        await user.click(screen.getByRole("button", {name: "button.restore-task"}))
+        await waitFor(() => {
+            expect(api.updateTask).toHaveBeenCalledWith({
+                task: {...task, completed: false}
+            })
         })
     })
 });
