@@ -8,14 +8,19 @@ import useFetch from "~/core/hooks/useFetch";
 
 function Container(props) {
     const {api} = useServices()
-    const task = makeTask()
+    const [selectedTaskId, setSelectedTaskId] = useState<string>()
     const [activeTaskListId, setActiveTaskListId] = useState<string>()
     const {data: taskLists} = useFetch({query: () => api.getTaskList()})
     const activeTaskList = taskLists?.find((list) => list.id === activeTaskListId)
+    const task = activeTaskList?.tasks.find((task) => task.id === selectedTaskId)
+    const handleTaskListClick = (id: string) => {
+        setActiveTaskListId((prev) => prev !== id ? id : undefined)
+        setSelectedTaskId(undefined)
+    }
     return (
         <div className="flex flex-row gap-4">
-            <LeftBar onListClick={(id) => setActiveTaskListId((prev) => prev !== id ? id : undefined)} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
-            <MainContent taskList={activeTaskList}/>
+            <LeftBar onListClick={handleTaskListClick} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
+            <MainContent selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
             <RightBar task={task} />
         </div>
     );

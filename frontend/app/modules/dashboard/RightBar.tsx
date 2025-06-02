@@ -16,7 +16,7 @@ function RightBar({task}: Props) {
         <div className={clsx("container overflow-y-auto h-screen p-2 flex flex-col gap-2 bg-primary-500",
             "transition-[width] duration-500 ease-in-out",
                 {"w-[15%]": !!task, "w-0": !task}) }>
-            {sections.map(({name, value}) => (
+            {!!task && sections.map(({name, value}) => (
                 <div key={name} className="flex flex-col items-center gap-1">
                     <div className="text-white text-center underline text-md font-semibold">
                         {name}
@@ -26,7 +26,7 @@ function RightBar({task}: Props) {
                     </div>
                 </div>
             ))}
-            <Button variant="destructive" >{t("button.delete")}</Button>
+            {!!task && <Button variant="destructive" >{t("button.delete")}</Button>}
         </div>
     );
 }

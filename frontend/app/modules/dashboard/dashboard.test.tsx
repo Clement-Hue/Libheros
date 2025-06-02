@@ -79,4 +79,19 @@ describe('dashboard', () => {
             expect(screen.getByText("task 1")).not.toBeVisible()
         })
     })
+
+    it("should show detail about selected task", async () => {
+        const user = userEvent.setup()
+        const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [
+                makeTask({name: "task 1", completed: false, description: "description 1"}),
+                makeTask({name: "task 2", completed: false}),
+            ] })])
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "list 1"}))
+        await user.click(screen.getByRole("listitem", {name: "task 1"}))
+        await waitFor(() => {
+            expect(screen.getByRole("listitem", {name: "task 1"})).toHaveAttribute("aria-selected", "true")
+            expect(screen.getByText("description 1")).toBeInTheDocument()
+        })
+    })
 });

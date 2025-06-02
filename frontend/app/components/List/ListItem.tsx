@@ -1,9 +1,9 @@
 import React from "react";
 
 
-const ListItem = React.forwardRef<HTMLLIElement,Props>(({children, className}: Props, ref) => {
+const ListItem = React.forwardRef<HTMLLIElement,Props>(({children, className, ...props}: Props, ref) => {
     return (
-        <li className={className} ref={ref}>{children}</li>
+        <li className={className} ref={ref} {...props}>{children}</li>
     )
 })
 
