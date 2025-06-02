@@ -11,7 +11,7 @@ function LeftBar({children, taskLists, onAddTaskList, selectedTaskListId, onList
     const {t} = useTranslation()
     return (
         <div aria-expanded={expanded} role="toolbar" className={clsx(
-            "container h-screen  relative flex flex-col items-center py-10 bg-primary-400",
+            "container h-screen relative flex flex-col items-center py-10 bg-primary-400",
             "transition-[width] duration-500 ease-in-out",
             {"w-13": !expanded, "w-[15%]": expanded}
         )}>

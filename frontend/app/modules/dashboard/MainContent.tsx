@@ -1,12 +1,12 @@
 import React from 'react';
 import {Button, Card, Input, List, Tabs} from "~/components";
 import {useTranslation} from "react-i18next";
-import {Task, TaskList} from "~/typing/model";
+import {TaskList} from "~/typing/model";
 import {ParseKeys} from "i18next";
 import TaskItem from "~/modules/dashboard/TaskItem";
 import Icon from "~/components/Icon";
 
-function MainContent({taskList, onTaskClick, selectedTaskId}: Props) {
+function MainContent({taskList, onTaskClick, selectedTaskId, onComplete, onRestore}: Props) {
     const {t} = useTranslation()
     const [activeTab, setActiveTab] = React.useState("task.active-tasks");
     const tabs = [
@@ -14,7 +14,11 @@ function MainContent({taskList, onTaskClick, selectedTaskId}: Props) {
                 <Card className="w-full">
                     <List>
                         {taskList?.tasks?.filter(t => !t.completed).map((task) => (
-                            <List.Item aria-selected={selectedTaskId === task.id} aria-label={task.name} key={task.id} onClick={() => onTaskClick?.(task.id)}  ><TaskItem selected={selectedTaskId === task.id}  iconButtonProps={{color: "green", Icon: Icon.Validate}} >{task.name}</TaskItem></List.Item>
+                            <List.Item aria-selected={selectedTaskId === task.id} aria-label={task.name} key={task.id} onClick={() => onTaskClick?.(task.id)}  >
+                                <TaskItem selected={selectedTaskId === task.id}  iconButtonProps={{color: "green", Icon: Icon.Validate, onClick: () => onComplete?.(task.id)}} >
+                                    {task.name}
+                                </TaskItem>
+                            </List.Item>
                         ))}
                     </List>
                 </Card>
@@ -23,7 +27,11 @@ function MainContent({taskList, onTaskClick, selectedTaskId}: Props) {
                 <Card className="w-full">
                     <List>
                         {taskList?.tasks?.filter(t => t.completed).map((task) => (
-                            <List.Item aria-selected={selectedTaskId === task.id} aria-label={task.name} key={task.id} onClick={() => onTaskClick?.(task.id)}  ><TaskItem selected={selectedTaskId === task.id} iconButtonProps={{Icon: Icon.Restore}} >{task.name}</TaskItem></List.Item>
+                            <List.Item aria-selected={selectedTaskId === task.id} aria-label={task.name} key={task.id} onClick={() => onTaskClick?.(task.id)}  >
+                                <TaskItem selected={selectedTaskId === task.id} iconButtonProps={{Icon: Icon.Restore, onClick: () => onRestore?.(task.id)}} >
+                                    {task.name}
+                                </TaskItem>
+                            </List.Item>
                         ))}
                     </List>
                 </Card>
@@ -53,6 +61,8 @@ type Props = {
     taskList?: TaskList
     onTaskClick?: (id: string) => void
     selectedTaskId?: string
+    onComplete?: (taskId: string) => void
+    onRestore?: (taskId: string) => void
 }
 
 export default MainContent;

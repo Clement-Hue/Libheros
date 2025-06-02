@@ -43,4 +43,34 @@ export default class ApiMock implements IApi {
             }
         })
     }
+
+    async addTask({task, listId}: { task: Task; listId: string })  {
+        this.taskList = this.taskList.map((list) => {
+            if (list.id !== listId) return list;
+            return {
+                ...list,
+                tasks: [...list.tasks, task]
+            }
+        })
+        return task
+    }
+
+    async updateTask({task}: {task: Task}): Promise<Task> {
+        const taskList = this.taskList.find(list => list.tasks.some(t => t.id === task.id));
+        this.taskList = this.taskList.map((list) => {
+            if (list.id !== taskList?.id) return list;
+            return {
+                ...list,
+                tasks: list.tasks.map((t) => {
+                    if (t.id !== task.id) return t;
+                    return {
+                        ...t,
+                        ...task
+                    }
+                })
+            }
+        })
+        return task
+    }
+
 }

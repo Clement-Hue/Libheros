@@ -131,7 +131,7 @@ describe('dashboard', () => {
             expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
         })
     })
-    
+
     it("should delete a task", async () => {
         const user = userEvent.setup()
         const api = new ApiMock([makeTaskList({ name: "list 1", tasks: [
