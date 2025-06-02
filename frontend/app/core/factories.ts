@@ -41,5 +41,6 @@ export function makeTask(override?: Partial<Task>): Task {
         description: faker.lorem.sentence({min: 0, max: 15}),
         date: faker.date.future(),
         creationDate: faker.date.past(),
+        completed: faker.datatype.boolean(),
         ...override
 }}

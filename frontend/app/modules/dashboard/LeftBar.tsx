@@ -6,7 +6,7 @@ import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import clsx from "clsx";
 
-function LeftBar({children, tasks, selectedTaskId}: Props) {
+function LeftBar({children, taskLists, selectedTaskListId, onListClick}: Props) {
     const [expanded, setExpanded] = useState(true)
     const {t} = useTranslation()
     return (
@@ -26,12 +26,13 @@ function LeftBar({children, tasks, selectedTaskId}: Props) {
                 <div className="container">
                     <div className="p-2 mt-4 truncate text-center text-primary-contrast-text">{t("task.all-task-list")}</div>
                     <List className="w-full divide-y-2 divide-primary-600">
-                        {tasks?.map(({id, name}) => (
+                        {taskLists?.map(({id, name}) => (
                             <List.Item key={id}  className="relative">
                                 <IconButton color="red" className="z-10 my-auto absolute top-0 bottom-0 -right-2" Icon={Icon.Trash}/>
-                                <button className={clsx("p-2 w-full cursor-pointer bg-primary-500 text-primary-contrast-text hover:opacity-(--hover-opacity) break-words",
+                                <button onClick={() => onListClick?.(id)} aria-selected={selectedTaskListId === id} className={clsx("p-2 w-full cursor-pointer  hover:opacity-(--hover-opacity) break-words",
                                     "truncate",
-                                    {"bg-primary-300": selectedTaskId === id}
+                                    {"bg-primary-300": selectedTaskListId === id, "bg-primary-500": selectedTaskListId !== id},
+                                    {"text-primary-contrast-text ": selectedTaskListId !== id, "text-black": selectedTaskListId === id},
                                 )}>
                                     {name}</button>
                             </List.Item>
@@ -44,8 +45,9 @@ function LeftBar({children, tasks, selectedTaskId}: Props) {
 }
 
 type Props = React.PropsWithChildren & {
-    tasks?: TaskList[]
-    selectedTaskId?: string
+    taskLists?: TaskList[]
+    selectedTaskListId?: string
+    onListClick?: (taskListId: string) => void
 }
 
 export default LeftBar;

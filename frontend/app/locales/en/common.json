@@ -31,7 +31,9 @@
     "short-description": "Short Description",
     "long-description": "Description",
     "due-date": "Due Date",
-    "creation-date": "Creation Date"
+    "creation-date": "Creation Date",
+    "active-tasks": "Active tasks",
+    "completed-tasks": "Completed tasks"
   },
   "error": {
     "list": {

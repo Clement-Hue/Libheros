@@ -5,6 +5,7 @@ export type Task = {
     creationDate: Date
     name: string
     description: string
+    completed: boolean
 }
 
 export type TaskList = {

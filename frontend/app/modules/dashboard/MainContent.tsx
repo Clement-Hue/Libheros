@@ -1,11 +1,32 @@
 import React from 'react';
-import {Button, Card, Input, List} from "~/components";
-import {faker} from "@faker-js/faker";
-import {makeTask} from "~/core/factories";
+import {Button, Card, Input, List, Tabs} from "~/components";
 import {useTranslation} from "react-i18next";
+import {Task} from "~/typing/model";
+import {ParseKeys} from "i18next";
 
-function MainContent(props) {
+function MainContent({tasks}: Props) {
     const {t} = useTranslation()
+    const [activeTab, setActiveTab] = React.useState("task.active-tasks");
+    const tabs = [
+        {tab: "task.active-tasks" as ParseKeys<"common">, content: (
+                <Card className="w-full">
+                    <List>
+                        {tasks?.map((task) => (
+                            <List.Item key={task.id} >{task.name}</List.Item>
+                        ))}
+                    </List>
+                </Card>
+            )},
+        {tab: "task.completed-tasks" as ParseKeys<"common">, content: (
+                <Card className="w-full">
+                    <List>
+                        {tasks?.map((task) => (
+                            <List.Item key={task.id} >{task.name}</List.Item>
+                        ))}
+                    </List>
+                </Card>
+            )}
+    ]
     return (
         <div className="mx-auto flex flex-col gap-4">
             <form className="flex flex-col items-start">
@@ -17,15 +38,13 @@ function MainContent(props) {
                 </div>
                 <Button type="submit">{t("button.add-task")}</Button>
             </form>
-            <Card className="w-full">
-                <List>
-                    {faker.helpers.multiple(makeTask).map((task) => (
-                        <List.Item key={task.id} >{task.name}</List.Item>
-                    ))}
-                </List>
-            </Card>
+            <Tabs onTabChange={setActiveTab} active={activeTab} tabs={tabs}/>
         </div>
     );
+}
+
+type Props = {
+    tasks?: Task[]
 }
 
 export default MainContent;
