@@ -6,7 +6,7 @@ import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
 import clsx from "clsx";
 
-function LeftBar({children, taskLists, selectedTaskListId, onListClick}: Props) {
+function LeftBar({children, taskLists, selectedTaskListId, onListClick, onDeleteListClick}: Props) {
     const [expanded, setExpanded] = useState(true)
     const {t} = useTranslation()
     return (
@@ -28,7 +28,7 @@ function LeftBar({children, taskLists, selectedTaskListId, onListClick}: Props) 
                     <List className="w-full divide-y-2 divide-primary-600">
                         {taskLists?.map(({id, name}) => (
                             <List.Item key={id}  className="relative">
-                                <IconButton color="red" className="z-10 my-auto absolute top-0 bottom-0 -right-2" Icon={Icon.Trash}/>
+                                <IconButton aria-label={t("button.delete-task-list")} onClick={() => onDeleteListClick?.(id)} color="red" className="z-10 my-auto absolute top-0 bottom-0 -right-2" Icon={Icon.Trash}/>
                                 <button onClick={() => onListClick?.(id)} aria-selected={selectedTaskListId === id} className={clsx("p-2 w-full cursor-pointer  hover:opacity-(--hover-opacity) break-words",
                                     "truncate",
                                     {"bg-primary-300": selectedTaskListId === id, "bg-primary-500": selectedTaskListId !== id},
@@ -48,6 +48,7 @@ type Props = React.PropsWithChildren & {
     taskLists?: TaskList[]
     selectedTaskListId?: string
     onListClick?: (taskListId: string) => void
+    onDeleteListClick?: (taskListId: string) => void
 }
 
 export default LeftBar;

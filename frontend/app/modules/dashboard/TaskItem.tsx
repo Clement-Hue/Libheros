@@ -9,7 +9,7 @@ function TaskItem({children, selected = false, iconButtonProps, ...props}: Props
             {"bg-primary-400": selected, "bg-white": !selected},
         )} {...props} >
             {children}
-            <IconButton className="absolute top-0 bottom-0 right-0 my-auto z-10" {...iconButtonProps}/>
+            <IconButton className="absolute top-0 bottom-0 -right-2 my-auto z-10" {...iconButtonProps}/>
         </div>
     );
 }

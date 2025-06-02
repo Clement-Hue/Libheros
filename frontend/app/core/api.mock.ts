@@ -15,4 +15,8 @@ export default class ApiMock implements IApi {
         }
         return list.tasks;
     }
+
+    async deleteTaskList(args: { listId: string }): Promise<void> {
+        this.taskList = this.taskList.filter((l) => l.id !== args.listId);
+    }
 }

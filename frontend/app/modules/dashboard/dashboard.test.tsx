@@ -1,4 +1,4 @@
-import {screen, waitFor} from "@testing-library/react";
+import {screen, waitFor, within} from "@testing-library/react";
 import userEvent from '@testing-library/user-event'
 import Container from "./Container";
 import {customRender} from "~/core/test";
@@ -92,6 +92,24 @@ describe('dashboard', () => {
         await waitFor(() => {
             expect(screen.getByRole("listitem", {name: "task 1"})).toHaveAttribute("aria-selected", "true")
             expect(screen.getByText("description 1")).toBeInTheDocument()
+        })
+    })
+
+    it("should delete task list", async () => {
+        const user = userEvent.setup()
+        const api = new ApiMock([makeTaskList({ id: "1", name: "list 1" })])
+        jest.spyOn(api, "deleteTaskList")
+        customRender(<Container/>, { services: {api} })
+        await user.click(await screen.findByRole("button", {name: "button.delete-task-list"}))
+        await waitFor(() => {
+            expect(screen.getByRole("dialog")).toBeInTheDocument();
+        })
+        const dialog = within(screen.getByRole("dialog"))
+        await user.click(dialog.getByRole("button", {name: "button.delete"}))
+        await waitFor(() => {
+            expect(api.deleteTaskList).toHaveBeenCalledWith({listId: "1"})
+            expect(screen.queryByText("list 1")).not.toBeInTheDocument();
+            expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
         })
     })
 });

@@ -5,6 +5,7 @@ import {DeepPartial} from "~/typing/extra";
 export interface IApi {
     getTaskList(): Promise<TaskList[]>
     getTasks(args: {listId: string}): Promise<Task[]>
+    deleteTaskList(args: {listId: string}): Promise<void>
 }
 
 export type ErrorCode = ParseKeys<"common", {}, "error">
