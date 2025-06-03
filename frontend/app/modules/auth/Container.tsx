@@ -6,6 +6,8 @@ import {Form, Formik} from "formik";
 import * as Yup from 'yup';
 import {useServices} from "~/core/hooks";
 import {ApiError} from "~/typing/app";
+import {withApiErrorHandling} from "~/core/utils";
+import AppForm from "~/components/AppForm";
 
 const schema = Yup.object().shape({
     password: Yup.string().required(),
@@ -14,38 +16,34 @@ const schema = Yup.object().shape({
         .required(),
 });
 
-function Container(props) {
+function Container() {
     const {t} = useTranslation()
     const {api} = useServices()
     const navigate = useNavigate()
     return (
-        <Formik onSubmit={async (values, {setStatus} ) => {
-            try {
+        <Card >
+            <div className="text-xl text-center mb-8 font-bold underline">{t("title.login")}</div>
+        <AppForm onSubmit={ async (values  ) => {
                 await api.auth(values)
                 navigate("dashboard")
-            } catch(e) {
-                if (e instanceof ApiError) setStatus({error: e.code})
             }
-        }} validationSchema={schema} initialValues={{email: "", password: ""}} >
+        } validationSchema={schema} initialValues={{email: "", password: ""}} >
             {({isSubmitting}) => (
-                <Card >
-                    <div className="mb-8 text-xl text-center font-bold underline">{t("title.login")}</div>
-                    <Form className="flex flex-col gap-4">
-                        <div className="flex flex-col">
-                            <Input name="email" type="email" autoFocus required label={t("label.mail")}/>
-                            <Input name="password" required type="password" label={t("label.password")}/>
-                            <GlobalError />
-                        </div>
-                        <div className="flex flex-col items-center gap-2">
-                            <Link className="w-full max-w-[200px]" to="register">
-                                <Button className="w-full" variant="secondary" >{t("button.sign-up")}</Button>
-                            </Link>
-                            <Button disabled={isSubmitting} type="submit" className="w-full max-w-[200px]" >{t("button.sign-in")}</Button>
-                        </div>
-                    </Form>
-                </Card>
+                <div className="flex flex-col gap-6">
+                    <div className="flex flex-col">
+                        <Input name="email" type="email" autoFocus required label={t("label.mail")}/>
+                        <Input name="password" required type="password" label={t("label.password")}/>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                        <Link className="w-full max-w-[200px]" to="register">
+                            <Button className="w-full" variant="secondary" >{t("button.sign-up")}</Button>
+                        </Link>
+                        <Button disabled={isSubmitting} type="submit" className="w-full max-w-[200px]" >{t("button.sign-in")}</Button>
+                    </div>
+                </div>
             )}
-        </Formik>
+            </AppForm>
+        </Card>
     );
 }
 

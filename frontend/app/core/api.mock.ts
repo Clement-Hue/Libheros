@@ -75,7 +75,6 @@ export default class ApiMock implements IApi {
     }
 
     auth(args: { email: string; password: string }): Promise<void> {
-        throw new ApiError("auth.invalid-credentials")
     }
 
     register(args: { firstname: string; lastname: string; email: string; password: string }): Promise<void> {

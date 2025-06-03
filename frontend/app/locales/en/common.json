@@ -51,6 +51,7 @@
     "invalid-email": "Invalid email address"
   },
   "error": {
+    "unexpected": "An unexpected error occurred",
     "list": {
         "not-found": "List not found",
         "name-exist": "A task list with this name already exists"
