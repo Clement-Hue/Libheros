@@ -48,7 +48,9 @@
   },
   "form": {
     "required": "This field is required",
-    "invalid-email": "Invalid email address"
+    "invalid-email": "Invalid email address",
+    "passwords-not-match": "Passwords do not match",
+    "emails-not-match": "Emails do not match"
   },
   "error": {
     "unexpected": "An unexpected error occurred",
