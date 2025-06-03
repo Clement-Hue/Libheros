@@ -33,7 +33,7 @@ function Container() {
                     await api.register(values)
                     navigate("/")
                  }}>
-                {({isSubmitting}) => (
+                {({isSubmitting, isValid}) => (
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
                             <Input name="firstname" autoFocus required label={t("label.firstname")}/>
@@ -44,7 +44,7 @@ function Container() {
                             <Input name="confirm-password" required type="password" label={t("label.confirm-password")}/>
                         </div>
                         <div className="flex flex-col items-center gap-2">
-                            <Button disabled={isSubmitting} type="submit" className="w-full max-w-[200px]" variant="primary" >{t("button.sign-up")}</Button>
+                            <Button disabled={isSubmitting || !isValid} type="submit" className="w-full max-w-[200px]" variant="primary" >{t("button.sign-up")}</Button>
                             <div className="w-full max-w-[200px]" >
                                 <div className="text-sm text-gray-600 text-center">{t("register.already-have-account")}</div>
                                 <Link to="/">

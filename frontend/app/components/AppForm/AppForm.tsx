@@ -8,7 +8,7 @@ function AppForm<Values extends FormikValues>(props: Props<Values>) {
     const { onSubmit, children, ...rest } = props;
 
     return (
-        <Formik<Values> {...rest} onSubmit={ async (
+        <Formik<Values> validateOnMount {...rest} onSubmit={ async (
             values: Values,
             formikBag: FormikHelpers<Values> ) => {
             const {setStatus, setSubmitting} = formikBag;

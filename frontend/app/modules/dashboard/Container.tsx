@@ -78,13 +78,22 @@ function Container() {
             }
         }))
     }
+    const handleTaskAdded = (task: Task) => {
+        setData((prev = []) => prev.map((list) => {
+            if (list.id !== activeTaskListId) return list;
+            return {
+                ...list,
+                tasks: [...list.tasks, task]
+            }
+        }))
+    }
     return (
         <div className="flex flex-row gap-4">
             <DeleteTaskListModal onDelete={handleDeleteTaskList} isOpen={!!deleteTaskListId} onClose={() => setDeleteTaskListId(undefined)}/>
             <DeleteTaskModal onDelete={handleDeleteTask} isOpen={showDeleteTaskModal} onClose={() => setShowDeleteTaskModal(false)} />
             <AddTaskListModal taskListNames={taskLists?.map((m) => m.name)} onAdd={handleAddList} isOpen={showAddTaskListModal} onClose={() => setShowAddTaskListModal(false)} />
             <LeftBar onAddTaskList={() => setShowAddTaskListModal(true)} onDeleteListClick={(taskListId) => setDeleteTaskListId(taskListId)} onListClick={handleTaskListClick} selectedTaskListId={activeTaskListId} taskLists={taskLists} />
-            <MainContent onRestore={handleRestore} onComplete={handleComplete} selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
+            <MainContent onTaskAdded={handleTaskAdded} onRestore={handleRestore} onComplete={handleComplete} selectedTaskId={selectedTaskId} onTaskClick={(id) => setSelectedTaskId((prev) => prev !== id ? id : undefined)} taskList={activeTaskList}/>
             <RightBar onDeleteTask={() => setShowDeleteTaskModal(true)} task={task} />
         </div>
     );

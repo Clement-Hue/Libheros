@@ -25,7 +25,7 @@ function Container() {
                 navigate("dashboard")
             }
         } validationSchema={schema} initialValues={{email: "", password: ""}} >
-            {({isSubmitting}) => (
+            {({isSubmitting, isValid}) => (
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col">
                         <Input name="email" type="email" autoFocus required label={t("label.mail")}/>
@@ -35,7 +35,7 @@ function Container() {
                         <Link className="w-full max-w-[200px]" to="register">
                             <Button className="w-full" variant="secondary" >{t("button.sign-up")}</Button>
                         </Link>
-                        <Button disabled={isSubmitting} type="submit" className="w-full max-w-[200px]" >{t("button.sign-in")}</Button>
+                        <Button disabled={isSubmitting || !isValid }  type="submit" className="w-full max-w-[200px]" >{t("button.sign-in")}</Button>
                     </div>
                 </div>
             )}

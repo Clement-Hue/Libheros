@@ -2,6 +2,12 @@ import React from 'react';
 import {Button, Input, Modal} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Form, Formik} from "formik";
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
+    value: Yup.string().required(),
+});
+
 
 function AddTaskListModal({isOpen, onClose, onAdd, taskListNames = []}: Props) {
     const {t} = useTranslation()
@@ -13,13 +19,13 @@ function AddTaskListModal({isOpen, onClose, onAdd, taskListNames = []}: Props) {
     }
     return (
         <Modal isOpen={isOpen} onClose={handleClose}>
-            <Formik initialValues={{value: ""}} onSubmit={handleAdd}>
-                {({values: {value}}) => (
+            <Formik validationSchema={schema} initialValues={{value: ""}} onSubmit={handleAdd}>
+                {({values: {value}, isValid}) => (
                     <Form className="flex flex-col gap-2">
                         <Input name="value" required autoFocus label={t("label.task-list-name")} />
                         <div className="flex flex-row gap-2 self-end">
                             <Button type="button" onClick={handleClose} variant="secondary">{t("button.cancel")}</Button>
-                            <Button disabled={!value || taskListNames.includes(value) } type="submit" >{t("button.add-task-list")}</Button>
+                            <Button disabled={taskListNames.includes(value) || !isValid  } type="submit" >{t("button.add-task-list")}</Button>
                         </div>
                     </Form>
                 )}

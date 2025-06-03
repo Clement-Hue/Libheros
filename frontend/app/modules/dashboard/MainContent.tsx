@@ -6,11 +6,22 @@ import {ParseKeys} from "i18next";
 import TaskItem from "~/modules/dashboard/TaskItem";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
-import {Form, Formik} from "formik";
+import AppForm from "~/components/AppForm";
+import {useServices} from "~/core/hooks";
+import * as Yup from "yup";
+import {generateId} from "~/core/utils";
 
-function MainContent({taskList, onTaskClick, selectedTaskId, onComplete, onRestore}: Props) {
+const schema = Yup.object().shape({
+    name: Yup.string().required(),
+    description: Yup.string(),
+    date: Yup.date().required(),
+});
+
+
+function MainContent({taskList, onTaskClick, selectedTaskId, onTaskAdded, onComplete, onRestore}: Props) {
     const {t} = useTranslation()
     const [activeTab, setActiveTab] = React.useState("task.active-tasks");
+    const {api} = useServices()
     const tabs = [
         {tab: "task.active-tasks" as ParseKeys<"common">, content: (
                 <Card className="w-full">
@@ -39,19 +50,35 @@ function MainContent({taskList, onTaskClick, selectedTaskId, onComplete, onResto
     ]
     return (
         <div className="mx-auto flex flex-col gap-4 py-4">
-            <Formik initialValues={{name: "", description: "", date: ""}} onSubmit={() => {
-
+            <AppForm validationSchema={schema} initialValues={{name: "", description: "", date: ""}} onSubmit={async (values, {resetForm}) => {
+                if (!taskList) return
+                const task = {
+                    name: values.name,
+                    id: generateId(),
+                    completed: false,
+                    date: new Date(values.date),
+                    description: values.description,
+                    creationDate: new Date()
+                }
+               await api.addTask({
+                   listId: taskList.id,
+                   task
+               })
+                onTaskAdded?.(task)
+                resetForm()
             }}>
-                <Form className="flex flex-col items-start">
-                    <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
-                    <div className="flex flex-row flex-wrap gap-2">
-                        <Input name="name" required label={t("label.short-description")} />
-                        <Input name="description" label={t("label.long-description")} />
-                        <Input name="date" required type="date" label={t("label.date")} />
+                {({isSubmitting, isValid}) => (
+                    <div className="flex flex-col items-start">
+                        <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
+                        <div className="flex flex-row flex-wrap gap-2">
+                            <Input name="name" required label={t("label.short-description")} />
+                            <Input name="description" label={t("label.long-description")} />
+                            <Input name="date" required type="date" label={t("label.date")} />
+                        </div>
+                        <Button disabled={isSubmitting || !isValid } type="submit">{t("button.add-task")}</Button>
                     </div>
-                    <Button type="submit">{t("button.add-task")}</Button>
-                </Form>
-            </Formik>
+                )}
+            </AppForm>
             {!taskList ? (
                 <div className="text-center text-md font-semibold">{t("task.no-list-selected")}</div>
             ): (
@@ -67,6 +94,7 @@ type Props = {
     selectedTaskId?: string
     onComplete?: (task: Task) => void
     onRestore?: (task: Task) => void
+    onTaskAdded?: (task: Task) => void
 }
 
 export default MainContent;
