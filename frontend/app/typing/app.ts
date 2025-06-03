@@ -10,6 +10,8 @@ export interface IApi {
     deleteTask(args: {taskId: string}): Promise<void>
     addTask(args: {task: Task, listId: string}): Promise<Task>
     updateTask(args: {task: Task} ): Promise<Task>
+    auth(args: {email: string, password: string}): Promise<void>
+    register(args: {firstname: string, lastname: string, email: string, password: string}): Promise<void>
 }
 
 export type ErrorCode = ParseKeys<"common", {}, "error">

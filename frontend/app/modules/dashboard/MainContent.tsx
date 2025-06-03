@@ -6,6 +6,7 @@ import {ParseKeys} from "i18next";
 import TaskItem from "~/modules/dashboard/TaskItem";
 import Icon from "~/components/Icon";
 import IconButton from "~/components/IconButton";
+import {Form, Formik} from "formik";
 
 function MainContent({taskList, onTaskClick, selectedTaskId, onComplete, onRestore}: Props) {
     const {t} = useTranslation()
@@ -38,15 +39,19 @@ function MainContent({taskList, onTaskClick, selectedTaskId, onComplete, onResto
     ]
     return (
         <div className="mx-auto flex flex-col gap-4 py-4">
-            <form className="flex flex-col items-start">
-                <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
-                <div className="flex flex-row flex-wrap gap-2">
-                    <Input required label={t("label.short-description")} />
-                    <Input label={t("label.long-description")} />
-                    <Input required type="date" label={t("label.date")} />
-                </div>
-                <Button type="submit">{t("button.add-task")}</Button>
-            </form>
+            <Formik initialValues={{name: "", description: "", date: ""}} onSubmit={() => {
+
+            }}>
+                <Form className="flex flex-col items-start">
+                    <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
+                    <div className="flex flex-row flex-wrap gap-2">
+                        <Input name="name" required label={t("label.short-description")} />
+                        <Input name="description" label={t("label.long-description")} />
+                        <Input name="date" required type="date" label={t("label.date")} />
+                    </div>
+                    <Button type="submit">{t("button.add-task")}</Button>
+                </Form>
+            </Formik>
             {!taskList ? (
                 <div className="text-center text-md font-semibold">{t("task.no-list-selected")}</div>
             ): (

@@ -1,29 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Button, Input, Modal} from "~/components";
 import {useTranslation} from "react-i18next";
+import {Form, Formik} from "formik";
 
 function AddTaskListModal({isOpen, onClose, onAdd, taskListNames = []}: Props) {
     const {t} = useTranslation()
-    const [value, setValue] = useState("")
-    useEffect(() => {
-       setValue("")
-    }, [isOpen]);
     const handleClose = () => {
        onClose?.()
     }
-    const handleAdd = () => {
+    const handleAdd = ({value}: {value: string}) => {
         onAdd?.({name: value})
     }
-    const disabled = !value || taskListNames.includes(value)
     return (
         <Modal isOpen={isOpen} onClose={handleClose}>
-            <form onSubmit={handleAdd} className="flex flex-col gap-2">
-                <Input required autoFocus label={t("label.task-list-name")} value={value} onChange={(e) => setValue(e.target.value)}/>
-                <div className="flex flex-row gap-2 self-end">
-                    <Button type="button" onClick={handleClose} variant="secondary">{t("button.cancel")}</Button>
-                    <Button disabled={disabled} type="submit" >{t("button.add-task-list")}</Button>
-                </div>
-            </form>
+            <Formik initialValues={{value: ""}} onSubmit={handleAdd}>
+                {({values: {value}}) => (
+                    <Form className="flex flex-col gap-2">
+                        <Input name="value" required autoFocus label={t("label.task-list-name")} />
+                        <div className="flex flex-row gap-2 self-end">
+                            <Button type="button" onClick={handleClose} variant="secondary">{t("button.cancel")}</Button>
+                            <Button disabled={!value || taskListNames.includes(value) } type="submit" >{t("button.add-task-list")}</Button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </Modal>
     );
 }

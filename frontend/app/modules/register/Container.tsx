@@ -11,7 +11,7 @@ function Container(props) {
             <div className="flex flex-col">
                 <Input autoFocus required label={t("label.firstname")}/>
                 <Input required label={t("label.lastname")}/>
-                <Input required label={t("label.mail")}/>
+                <Input type="email" required label={t("label.mail")}/>
                 <Input required label={t("label.confirm-mail")}/>
                 <Input required type="password" label={t("label.password")}/>
                 <Input required type="password" label={t("label.confirm-password")}/>

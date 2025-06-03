@@ -1,5 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import * as Yup from 'yup';
+import { setLocale } from 'yup';
 
 import en from "./en";
 
@@ -17,6 +19,15 @@ i18n.use(initReactI18next).init({
     resources,
     interpolation: {
         escapeValue: false,
+    },
+});
+
+setLocale({
+    mixed: {
+        required: () => i18n.t('form.required'),
+    },
+    string: {
+        email: () => i18n.t('form.invalid-email'),
     },
 });
 

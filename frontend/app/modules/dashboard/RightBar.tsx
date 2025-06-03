@@ -17,7 +17,7 @@ function RightBar({task, onDeleteTask}: Props) {
             "transition-[width] duration-500 ease-in-out",
                 {"w-[15%]": !!task, "w-0": !task}) }>
             {!!task && sections.map(({name, value}) => (
-                <div key={name} className="flex flex-col items-center gap-1">
+                <div key={name} className="flex flex-col  items-center gap-1">
                     <div className="text-white text-center underline text-md font-semibold">
                         {name}
                     </div>

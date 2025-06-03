@@ -46,6 +46,10 @@
     "delete-task-list": "Are you sure to delete this task list (all related tasks will be deleted) ?",
     "delete-task": "Are you sure to delete this task ?"
   },
+  "form": {
+    "required": "This field is required",
+    "invalid-email": "Invalid email address"
+  },
   "error": {
     "list": {
         "not-found": "List not found",

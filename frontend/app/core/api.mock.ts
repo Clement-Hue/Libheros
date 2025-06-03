@@ -1,6 +1,7 @@
 import {ApiError, IApi} from "~/typing/app";
 import {Task, TaskList} from "~/typing/model";
 import {name} from "ci-info";
+import {t} from "i18next";
 
 export default class ApiMock implements IApi {
     constructor(private taskList: TaskList[] = []) {}
@@ -71,6 +72,14 @@ export default class ApiMock implements IApi {
             }
         })
         return task
+    }
+
+    auth(args: { email: string; password: string }): Promise<void> {
+        return Promise.resolve(undefined);
+    }
+
+    register(args: { firstname: string; lastname: string; email: string; password: string }): Promise<void> {
+        return Promise.resolve(undefined);
     }
 
 }

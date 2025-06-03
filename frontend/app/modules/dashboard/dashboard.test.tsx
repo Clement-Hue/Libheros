@@ -167,6 +167,7 @@ describe('dashboard', () => {
             expect(api.updateTask).toHaveBeenCalledWith({
                 task: {...task, completed: true}
             })
+            expect(screen.getByText("task 1")).not.toBeVisible()
         })
     })
 
@@ -183,6 +184,7 @@ describe('dashboard', () => {
             expect(api.updateTask).toHaveBeenCalledWith({
                 task: {...task, completed: false}
             })
+            expect(screen.getByText("task 1")).not.toBeVisible()
         })
     })
 });
