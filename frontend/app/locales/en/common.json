@@ -54,6 +54,9 @@
     "list": {
         "not-found": "List not found",
         "name-exist": "A task list with this name already exists"
+    },
+    "auth": {
+      "invalid-credentials": "Invalid email or password"
     }
   }
 }

@@ -1,10 +1,11 @@
 import React from 'react';
-import {Button, Card, Input} from "~/components";
+import {Button, Card, GlobalError, Input} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Link, useNavigate} from "react-router";
 import {Form, Formik} from "formik";
 import * as Yup from 'yup';
 import {useServices} from "~/core/hooks";
+import {ApiError} from "~/typing/app";
 
 const schema = Yup.object().shape({
     password: Yup.string().required(),
@@ -18,9 +19,13 @@ function Container(props) {
     const {api} = useServices()
     const navigate = useNavigate()
     return (
-        <Formik onSubmit={async (values ) => {
-            await api.auth(values)
-            navigate("dashboard")
+        <Formik onSubmit={async (values, {setStatus} ) => {
+            try {
+                await api.auth(values)
+                navigate("dashboard")
+            } catch(e) {
+                if (e instanceof ApiError) setStatus({error: e.code})
+            }
         }} validationSchema={schema} initialValues={{email: "", password: ""}} >
             {({isSubmitting}) => (
                 <Card >
@@ -29,6 +34,7 @@ function Container(props) {
                         <div className="flex flex-col">
                             <Input name="email" type="email" autoFocus required label={t("label.mail")}/>
                             <Input name="password" required type="password" label={t("label.password")}/>
+                            <GlobalError />
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <Link className="w-full max-w-[200px]" to="register">
