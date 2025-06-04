@@ -7,12 +7,17 @@ import { INestApplication } from '@nestjs/common';
 import { Task, TaskList } from './entities';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from '../auth/entities';
+import { makeUser } from '../test-utils/factories';
+
+const email = "pierre@hotmail.fr"
 
 describe('TodoListController', () => {
   let app: INestApplication;
   let service: TaskListService;
   let taskListRepository: Repository<TaskList>;
   let taskRepository: Repository<Task>;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,11 +27,13 @@ describe('TodoListController', () => {
     }).compile();
 
     service = module.get<TaskListService>(TaskListService);
-    app = await createTestingApp(module)
+    app = await createTestingApp(module);
+    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     taskListRepository = module.get<Repository<TaskList>>(
       getRepositoryToken(TaskList),
     );
     taskRepository = module.get<Repository<Task>>(getRepositoryToken(Task));
+    userRepository.save(makeUser({ email }))
   });
 
   afterAll(async () => {
@@ -38,11 +45,13 @@ describe('TodoListController', () => {
       name: 'my list 1',
       id: 'id 1',
       tasks: [],
+      user: {email}
     };
     const list2 = {
       name: 'my list 2',
       id: 'id 2',
       tasks: [],
+      user: {email}
     };
     await taskListRepository.save(list1);
     await taskListRepository.save(list2);
@@ -76,6 +85,7 @@ describe('TodoListController', () => {
       name: 'my list 1',
       id: 'id-1',
       tasks: [],
+      user: {email}
     };
     await taskListRepository.save(list);
     await request(app.getHttpServer()).delete('/task-list/id-1').expect(200);
@@ -106,6 +116,7 @@ describe('TodoListController', () => {
       id: 'id-1',
       name: 'my list 1',
       tasks,
+      user: {email}
     };
     await taskListRepository.save(list);
     const res = await request(app.getHttpServer())
@@ -127,6 +138,7 @@ describe('TodoListController', () => {
       id: 'id-1',
       name: 'my list 1',
       tasks: [],
+      user: {email}
     };
     await taskListRepository.save(list);
     const res = await request(app.getHttpServer())
@@ -142,6 +154,5 @@ describe('TodoListController', () => {
       }),
     ).toMatchSnapshot()
   });
-
 
 });

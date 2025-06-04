@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { TaskList } from '../../task-list/entities';
+import { Entity, Column, PrimaryColumn, OneToMany } from 'typeorm';
 
 @Entity()
 export default class User {
@@ -13,4 +14,7 @@ export default class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => TaskList, (taskList) => taskList.user)
+  taskLists: TaskList[];
 }
