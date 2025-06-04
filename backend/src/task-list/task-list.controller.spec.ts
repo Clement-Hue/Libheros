@@ -2,38 +2,40 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TaskListController } from './task-list.controller';
 import { TaskListService } from './task-list.service';
 import * as request from 'supertest';
-import { createTestingApp, TestingTypeOrmModule } from '../test-utils/testing-modules';
+import {
+  createTestingApp, createUserAndToken,
+  TestingModules,
+} from '../test-utils/testing-modules';
 import { INestApplication } from '@nestjs/common';
 import { Task, TaskList } from './entities';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from '../auth/entities';
-import { makeUser } from '../test-utils/factories';
 
-const email = "pierre@hotmail.fr"
+const email = 'pierre@hotmail.fr';
 
 describe('TodoListController', () => {
   let app: INestApplication;
   let service: TaskListService;
   let taskListRepository: Repository<TaskList>;
   let taskRepository: Repository<Task>;
-  let userRepository: Repository<User>;
+  let token: string
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: TestingTypeOrmModule(),
+      imports: [...TestingModules()],
       controllers: [TaskListController],
       providers: [TaskListService],
     }).compile();
 
     service = module.get<TaskListService>(TaskListService);
-    app = await createTestingApp(module);
-    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
     taskListRepository = module.get<Repository<TaskList>>(
       getRepositoryToken(TaskList),
     );
     taskRepository = module.get<Repository<Task>>(getRepositoryToken(Task));
-    userRepository.save(makeUser({ email }))
+    app = await createTestingApp(module);
+    token = await createUserAndToken(module)({ email }).then(
+      ({ token }) => token,
+    );
   });
 
   afterAll(async () => {
@@ -45,39 +47,32 @@ describe('TodoListController', () => {
       name: 'my list 1',
       id: 'id 1',
       tasks: [],
-      user: {email}
+      user: { email },
     };
     const list2 = {
       name: 'my list 2',
       id: 'id 2',
       tasks: [],
-      user: {email}
+      user: { email },
     };
     await taskListRepository.save(list1);
     await taskListRepository.save(list2);
     const res = await request(app.getHttpServer())
       .get('/task-list')
+      .set('Authorization', `Bearer ${token}`)
       .expect(200);
-    expect(res.body).toMatchSnapshot()
+    expect(res.body).toMatchSnapshot();
   });
 
   it('should create task list', async () => {
     const payload = { name: 'my list', id: 'id' };
     const res = await request(app.getHttpServer())
       .post('/task-list')
+      .set('Authorization', `Bearer ${token}`)
       .send(payload)
       .expect(201);
-    expect(res.body).toEqual({
-      data: {
-        tasks: [],
-        ...payload,
-      },
-    });
-    expect(await service.getAllTaskList()).toMatchObject([
-      {
-        ...payload,
-      },
-    ]);
+    expect(res.body).toMatchSnapshot()
+    expect(await service.getAllTaskList()).toMatchSnapshot()
   });
 
   it('should delete task list', async () => {
@@ -85,16 +80,19 @@ describe('TodoListController', () => {
       name: 'my list 1',
       id: 'id-1',
       tasks: [],
-      user: {email}
+      user: { email },
     };
     await taskListRepository.save(list);
-    await request(app.getHttpServer()).delete('/task-list/id-1').expect(200);
+    await request(app.getHttpServer()).delete('/task-list/id-1')
+      .set('Authorization', `Bearer ${token}`)
+      .expect(200);
     expect(await service.getAllTaskList()).toEqual([]);
   });
 
   it('should show error while deleting task list', async () => {
     const res = await request(app.getHttpServer())
       .delete('/task-list/id-1')
+      .set('Authorization', `Bearer ${token}`)
       .expect(404);
     expect(res.body).toEqual({
       code: 'list.not-found',
@@ -116,13 +114,14 @@ describe('TodoListController', () => {
       id: 'id-1',
       name: 'my list 1',
       tasks,
-      user: {email}
+      user: { email },
     };
     await taskListRepository.save(list);
     const res = await request(app.getHttpServer())
       .get('/task-list/id-1')
+      .set('Authorization', `Bearer ${token}`)
       .expect(200);
-    expect(res.body).toMatchSnapshot()
+    expect(res.body).toMatchSnapshot();
   });
 
   it('should add task to list', async () => {
@@ -138,21 +137,21 @@ describe('TodoListController', () => {
       id: 'id-1',
       name: 'my list 1',
       tasks: [],
-      user: {email}
+      user: { email },
     };
     await taskListRepository.save(list);
     const res = await request(app.getHttpServer())
       .post('/task-list/id-1')
+      .set('Authorization', `Bearer ${token}`)
       .send(task)
       .expect(201);
-    expect(res.body).toMatchSnapshot()
+    expect(res.body).toMatchSnapshot();
     expect(
       await taskRepository.find({
         where: {
           id: 'task-1',
         },
       }),
-    ).toMatchSnapshot()
+    ).toMatchSnapshot();
   });
-
 });

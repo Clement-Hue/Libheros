@@ -31,6 +31,27 @@ exports[`TodoListController should add task to list 2`] = `
 ]
 `;
 
+exports[`TodoListController should create task list 1`] = `
+{
+  "data": {
+    "id": "id",
+    "name": "my list",
+    "tasks": [],
+  },
+}
+`;
+
+exports[`TodoListController should create task list 2`] = `
+[
+  TaskList {
+    "id": "id",
+    "name": "my list",
+    "tasks": [],
+    "user": undefined,
+  },
+]
+`;
+
 exports[`TodoListController should get all task list 1`] = `
 {
   "data": [

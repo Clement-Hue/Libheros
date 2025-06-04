@@ -9,6 +9,6 @@ export class AuthController {
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() data: CreateUserDto) {
-    await this.authService.createUser(data);
+    await this.authService.createUser({...data, taskLists: []});
   }
 }

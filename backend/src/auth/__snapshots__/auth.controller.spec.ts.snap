@@ -6,5 +6,6 @@ exports[`AuthController should create a user 1`] = `
   "firstName": "Pierre",
   "lastName": "Dupont",
   "password": Any<String>,
+  "taskLists": undefined,
 }
 `;

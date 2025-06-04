@@ -1,6 +1,5 @@
-import { faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker';
 import { User } from '../auth/entities';
-
 
 export function makeUser(override: Partial<User>): User {
   return {
@@ -9,6 +8,6 @@ export function makeUser(override: Partial<User>): User {
     email: faker.internet.email(),
     password: faker.internet.password(),
     taskLists: [],
-    ...override
-  }
+    ...override,
+  };
 }

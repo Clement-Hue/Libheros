@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Put,
+} from '@nestjs/common';
 import { TaskListService } from '../task-list.service';
 import { UpdateTaskDto } from '../dto';
 
@@ -14,10 +22,10 @@ export class TaskController {
 
   @Put(':id')
   @HttpCode(HttpStatus.OK)
-  async updateTask(@Param("id") taskId: string, @Body() data: UpdateTaskDto) {
-    const task = await this.taskListService.updateTask(taskId, data)
+  async updateTask(@Param('id') taskId: string, @Body() data: UpdateTaskDto) {
+    const task = await this.taskListService.updateTask(taskId, data);
     return {
-      data: task
-    }
+      data: task,
+    };
   }
 }
