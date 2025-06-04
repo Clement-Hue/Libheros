@@ -54,6 +54,9 @@
   },
   "error": {
     "unexpected": "An unexpected error occurred",
+    "task": {
+      "not-found": "Task not found"
+    },
     "list": {
         "not-found": "List not found",
         "name-exist": "A task list with this name already exists"

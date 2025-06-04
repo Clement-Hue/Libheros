@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, PrimaryColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import TaskList from './taskList.entity';
 
 @Entity()
@@ -9,7 +15,7 @@ export default class Task {
   @Column({ type: 'date' })
   date: Date;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   creationDate: Date;
 
   @Column()
@@ -21,6 +27,8 @@ export default class Task {
   @Column({ default: false })
   completed: boolean;
 
-  @ManyToOne(() => TaskList, (taskList) => taskList.tasks, { onDelete: 'CASCADE' })
+  @ManyToOne(() => TaskList, (taskList) => taskList.tasks, {
+    onDelete: 'CASCADE',
+  })
   taskList: TaskList;
 }

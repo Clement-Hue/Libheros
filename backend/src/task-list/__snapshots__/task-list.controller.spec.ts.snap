@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TodoListController should add task to list 1`] = `
+{
+  "data": {
+    "completed": false,
+    "creationDate": "2025-02-01T00:00:00.000Z",
+    "date": "2025-02-10T00:00:00.000Z",
+    "description": "",
+    "id": "task-1",
+    "name": "Task A",
+    "taskList": {
+      "id": "id-1",
+      "name": "my list 1",
+    },
+  },
+}
+`;
+
+exports[`TodoListController should add task to list 2`] = `
+[
+  Task {
+    "completed": false,
+    "creationDate": 2025-02-01T00:00:00.000Z,
+    "date": "2025-02-10T00:00:00.000Z",
+    "description": "",
+    "id": "task-1",
+    "name": "Task A",
+    "taskList": undefined,
+  },
+]
+`;
+
+exports[`TodoListController should get all task list 1`] = `
+{
+  "data": [
+    {
+      "id": "id 1",
+      "name": "my list 1",
+      "tasks": [],
+    },
+    {
+      "id": "id 2",
+      "name": "my list 2",
+      "tasks": [],
+    },
+  ],
+}
+`;
+
+exports[`TodoListController should get tasks of list 1`] = `
+{
+  "data": [
+    {
+      "completed": false,
+      "creationDate": "2025-02-01T00:00:00.000Z",
+      "date": "2025-02-10T00:00:00.000Z",
+      "description": "",
+      "id": "task-1",
+      "name": "Task A",
+    },
+  ],
+}
+`;

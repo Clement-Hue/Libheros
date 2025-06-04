@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskController should update task 1`] = `
+{
+  "data": {
+    "completed": true,
+    "creationDate": "2025-02-01T00:00:00.000Z",
+    "date": "2025-02-10T00:00:00.000Z",
+    "description": "",
+    "id": "task-1",
+    "name": "Task AB",
+  },
+}
+`;

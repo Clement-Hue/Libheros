@@ -1,4 +1,3 @@
-
 export class CreateTaskListDto {
   id: string;
   name: string;
@@ -10,5 +9,13 @@ export class CreateTaskDto {
   description: string;
   date: Date;
   creationDate: Date;
-  completed?: boolean;
+  completed: boolean;
+}
+
+export class UpdateTaskDto {
+  name: string;
+  description: string;
+  date: Date;
+  creationDate: Date;
+  completed: boolean;
 }
