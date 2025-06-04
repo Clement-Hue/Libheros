@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import { TaskListService } from '../task-list.service';
 import { Repository } from 'typeorm';
 import { Task, TaskList } from '../entities';
-import { TestingTypeOrmModule } from '../../test-utils/testing-modules';
+import { createTestingApp, TestingTypeOrmModule } from '../../test-utils/testing-modules';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import * as request from 'supertest';
 import { TaskController } from './task.controller';
@@ -20,8 +20,7 @@ describe('TaskController', () => {
       providers: [TaskListService],
     }).compile();
 
-    app = module.createNestApplication();
-    await app.init();
+    app = await createTestingApp(module)
     taskListRepository = module.get<Repository<TaskList>>(
       getRepositoryToken(TaskList),
     );

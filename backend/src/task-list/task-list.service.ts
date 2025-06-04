@@ -23,7 +23,7 @@ export class TaskListService {
       where: { id },
     });
     if (!taskList) {
-      throw new NotFoundException({ code: 'list.no-found' });
+      throw new NotFoundException({ code: 'list.not-found' });
     }
     await this.taskListRepository.delete(id);
   }
@@ -46,7 +46,7 @@ export class TaskListService {
     const list = await this.taskListRepository.findOne({
       where: { id: listId },
     });
-    if (!list) throw new NotFoundException({ code: 'list.no-found' });
+    if (!list) throw new NotFoundException({ code: 'list.not-found' });
 
     const task = this.taskRepository.create({ ...taskData, taskList: list });
     return this.taskRepository.save(task);
@@ -60,7 +60,7 @@ export class TaskListService {
       where: { id: taskId },
     });
 
-    if (!task) throw new NotFoundException({ code: 'task.no-found' });
+    if (!task) throw new NotFoundException({ code: 'task.not-found' });
 
     Object.assign(task, updates);
     return this.taskRepository.save(task);

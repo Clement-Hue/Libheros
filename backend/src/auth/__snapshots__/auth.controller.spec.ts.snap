@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AuthController should create a user 1`] = `
+{
+  "email": "pierre@gmail.com",
+  "firstName": "Pierre",
+  "lastName": "Dupont",
+  "password": Any<String>,
+}
+`;

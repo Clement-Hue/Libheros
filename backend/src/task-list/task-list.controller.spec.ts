@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TaskListController } from './task-list.controller';
 import { TaskListService } from './task-list.service';
 import * as request from 'supertest';
-import { TestingTypeOrmModule } from '../test-utils/testing-modules';
+import { createTestingApp, TestingTypeOrmModule } from '../test-utils/testing-modules';
 import { INestApplication } from '@nestjs/common';
 import { Task, TaskList } from './entities';
 import { Repository } from 'typeorm';
@@ -22,8 +22,7 @@ describe('TodoListController', () => {
     }).compile();
 
     service = module.get<TaskListService>(TaskListService);
-    app = module.createNestApplication();
-    await app.init();
+    app = await createTestingApp(module)
     taskListRepository = module.get<Repository<TaskList>>(
       getRepositoryToken(TaskList),
     );
@@ -88,7 +87,7 @@ describe('TodoListController', () => {
       .delete('/task-list/id-1')
       .expect(404);
     expect(res.body).toEqual({
-      code: 'list.no-found',
+      code: 'list.not-found',
     });
   });
 
