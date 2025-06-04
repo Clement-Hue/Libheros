@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task, TaskList } from './entities';
+import { User } from '../auth/entities';
 
 @Injectable()
 export class TaskListService {
@@ -12,15 +13,16 @@ export class TaskListService {
     private taskRepository: Repository<Task>,
   ) {}
 
-  getAllTaskList(): Promise<TaskList[]> {
+  getAllTaskList(user: User): Promise<TaskList[]> {
     return this.taskListRepository.find({
+      where: { user },
       relations: ['tasks'],
     });
   }
 
-  async removeTaskList(id: string): Promise<void> {
+  async removeTaskList(id: string, user: User): Promise<void> {
     const taskList = await this.taskListRepository.findOne({
-      where: { id },
+      where: { id, user },
     });
     if (!taskList) {
       throw new NotFoundException({ code: 'list.not-found' });
@@ -28,9 +30,9 @@ export class TaskListService {
     await this.taskListRepository.delete(id);
   }
 
-  async getTasksByListId(taskListId: string) {
+  async getTasksByListId(taskListId: string, user: User) {
     return this.taskRepository.find({
-      where: { taskList: { id: taskListId } },
+      where: { taskList: { id: taskListId, user } },
     });
   }
 
@@ -41,10 +43,11 @@ export class TaskListService {
 
   async addTaskToList(
     listId: string,
+    user: User,
     taskData: Omit<Task, 'taskList'>,
   ): Promise<Task> {
     const list = await this.taskListRepository.findOne({
-      where: { id: listId },
+      where: { id: listId, user },
     });
     if (!list) throw new NotFoundException({ code: 'list.not-found' });
 
@@ -54,10 +57,11 @@ export class TaskListService {
 
   async updateTask(
     taskId: string,
+    user: User,
     updates: Omit<Partial<Task>, 'taskList'>,
   ): Promise<Task> {
     const task = await this.taskRepository.findOne({
-      where: { id: taskId },
+      where: { id: taskId, taskList: {user} },
     });
 
     if (!task) throw new NotFoundException({ code: 'task.not-found' });
@@ -66,9 +70,9 @@ export class TaskListService {
     return this.taskRepository.save(task);
   }
 
-  async removeTask(taskId: string): Promise<void> {
+  async removeTask(taskId: string, user: User): Promise<void> {
     const task = await this.taskRepository.findOne({
-      where: { id: taskId },
+      where: { id: taskId, taskList: { user } },
     });
 
     if (!task) throw new NotFoundException({ code: 'task.not-found' });

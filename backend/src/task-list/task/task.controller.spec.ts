@@ -122,4 +122,17 @@ describe('TaskController', () => {
       .expect(200);
     expect(res.body).toMatchSnapshot();
   });
+
+  it('should show unauthorized', async () => {
+    await request(app.getHttpServer())
+      .put('/task/task-1')
+      .send({
+        name: 'Task AB',
+        description: '',
+        creationDate: new Date('2025-02-01').toISOString(),
+        date: new Date('2025-02-10').toISOString(),
+        completed: true,
+      })
+      .expect(401);
+  });
 });

@@ -10,6 +10,7 @@ import { INestApplication } from '@nestjs/common';
 import { Task, TaskList } from './entities';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from '../auth/entities';
 
 const email = 'pierre@hotmail.fr';
 
@@ -19,6 +20,7 @@ describe('TodoListController', () => {
   let taskListRepository: Repository<TaskList>;
   let taskRepository: Repository<Task>;
   let token: string
+  let user: User;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -33,9 +35,9 @@ describe('TodoListController', () => {
     );
     taskRepository = module.get<Repository<Task>>(getRepositoryToken(Task));
     app = await createTestingApp(module);
-    token = await createUserAndToken(module)({ email }).then(
-      ({ token }) => token,
-    );
+    const credentials  = await createUserAndToken(module)({ email })
+    token = credentials.token
+    user = credentials.user
   });
 
   afterAll(async () => {
@@ -55,8 +57,14 @@ describe('TodoListController', () => {
       tasks: [],
       user: { email },
     };
+    const list3 = {
+      name: 'no user list',
+      id: 'id 3',
+      tasks: [],
+    };
     await taskListRepository.save(list1);
     await taskListRepository.save(list2);
+    await taskListRepository.save(list3);
     const res = await request(app.getHttpServer())
       .get('/task-list')
       .set('Authorization', `Bearer ${token}`)
@@ -72,7 +80,7 @@ describe('TodoListController', () => {
       .send(payload)
       .expect(201);
     expect(res.body).toMatchSnapshot()
-    expect(await service.getAllTaskList()).toMatchSnapshot()
+    expect(await service.getAllTaskList(user)).toMatchSnapshot()
   });
 
   it('should delete task list', async () => {
@@ -86,7 +94,7 @@ describe('TodoListController', () => {
     await request(app.getHttpServer()).delete('/task-list/id-1')
       .set('Authorization', `Bearer ${token}`)
       .expect(200);
-    expect(await service.getAllTaskList()).toEqual([]);
+    expect(await service.getAllTaskList(user)).toEqual([]);
   });
 
   it('should show error while deleting task list', async () => {

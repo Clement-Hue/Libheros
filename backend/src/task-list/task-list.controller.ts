@@ -35,8 +35,8 @@ export class TaskListController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async getTaskLists() {
-    const taskList = await this.taskListService.getAllTaskList();
+  async getTaskLists(@Request() req) {
+    const taskList = await this.taskListService.getAllTaskList(req.user);
     return {
       data: taskList,
     };
@@ -44,8 +44,8 @@ export class TaskListController {
 
   @Get(':id')
   @HttpCode(HttpStatus.OK)
-  async getTasks(@Param('id') listId: string) {
-    const tasks = await this.taskListService.getTasksByListId(listId);
+  async getTasks(@Param('id') listId: string, @Request() req) {
+    const tasks = await this.taskListService.getTasksByListId(listId, req.user);
     return {
       data: tasks,
     };
@@ -53,8 +53,12 @@ export class TaskListController {
 
   @Post(':id')
   @HttpCode(HttpStatus.CREATED)
-  async createTask(@Param('id') listId: string, @Body() dto: CreateTaskDto) {
-    const task = await this.taskListService.addTaskToList(listId, dto);
+  async createTask(@Param('id') listId: string, @Body() dto: CreateTaskDto, @Request() req) {
+    const task = await this.taskListService.addTaskToList(
+      listId,
+      req.user,
+      dto,
+    );
     return {
       data: task,
     };
@@ -62,7 +66,7 @@ export class TaskListController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
-  async deleteTaskList(@Param('id') listId: string) {
-    await this.taskListService.removeTaskList(listId);
+  async deleteTaskList(@Param('id') listId: string, @Request() req) {
+    await this.taskListService.removeTaskList(listId, req.user);
   }
 }
