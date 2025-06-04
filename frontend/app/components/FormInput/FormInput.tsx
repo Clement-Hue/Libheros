@@ -2,7 +2,7 @@ import React, {useId} from "react"
 import {useField} from "formik";
 import clsx from "clsx";
 
-const Input = React.forwardRef<HTMLInputElement, Props>(({label, required, ...props}, ref) => {
+const FormInput = React.forwardRef<HTMLInputElement, Props>(({label, required, ...props}, ref) => {
     const id = useId()
     const errorId = useId()
     const [field, meta] = useField(props)
@@ -23,4 +23,4 @@ type Props = React.InputHTMLAttributes<HTMLInputElement> & {
     label?: string
 };
 
-export default Input;
+export default FormInput;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Input} from "~/components";
+import {Button, Card, FormInput} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Link, useNavigate} from "react-router";
 import * as Yup from 'yup';
@@ -28,8 +28,8 @@ function Container() {
             {({isSubmitting, isValid}) => (
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col">
-                        <Input name="email" type="email" autoFocus required label={t("label.mail")}/>
-                        <Input name="password" required type="password" label={t("label.password")}/>
+                        <FormInput name="email" type="email" autoFocus required label={t("label.mail")}/>
+                        <FormInput name="password" required type="password" label={t("label.password")}/>
                     </div>
                     <div className="flex flex-col items-center gap-2">
                         <Link className="w-full max-w-[200px]" to="register">

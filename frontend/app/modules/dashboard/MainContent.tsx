@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Input, List, Tabs} from "~/components";
+import {Button, Card, FormInput, List, Tabs} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Task, TaskList} from "~/typing/model";
 import {ParseKeys} from "i18next";
@@ -71,9 +71,9 @@ function MainContent({taskList, onTaskClick, selectedTaskId, onTaskAdded, onComp
                     <div className="flex flex-col items-start">
                         <div className="text-xl mb-4 font-semibold underline">{t("title.add-task")}</div>
                         <div className="flex flex-row flex-wrap gap-2">
-                            <Input name="name" required label={t("label.short-description")} />
-                            <Input name="description" label={t("label.long-description")} />
-                            <Input name="date" required type="date" label={t("label.date")} />
+                            <FormInput name="name" required label={t("label.short-description")} />
+                            <FormInput name="description" label={t("label.long-description")} />
+                            <FormInput name="date" required type="date" label={t("label.date")} />
                         </div>
                         <Button disabled={isSubmitting || !isValid } type="submit">{t("button.add-task")}</Button>
                     </div>

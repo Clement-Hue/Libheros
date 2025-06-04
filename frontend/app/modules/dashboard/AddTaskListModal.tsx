@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input, Modal} from "~/components";
+import {Button, FormInput, Modal} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Form, Formik} from "formik";
 import * as Yup from "yup";
@@ -22,7 +22,7 @@ function AddTaskListModal({isOpen, onClose, onAdd, taskListNames = []}: Props) {
             <Formik validationSchema={schema} initialValues={{value: ""}} onSubmit={handleAdd}>
                 {({values: {value}, isValid}) => (
                     <Form className="flex flex-col gap-2">
-                        <Input name="value" required autoFocus label={t("label.task-list-name")} />
+                        <FormInput name="value" required autoFocus label={t("label.task-list-name")} />
                         <div className="flex flex-row gap-2 self-end">
                             <Button type="button" onClick={handleClose} variant="secondary">{t("button.cancel")}</Button>
                             <Button disabled={taskListNames.includes(value) || !isValid  } type="submit" >{t("button.add-task-list")}</Button>

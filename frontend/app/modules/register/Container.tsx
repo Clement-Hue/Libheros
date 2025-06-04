@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Card, Input} from "~/components";
+import {Button, Card, FormInput} from "~/components";
 import {useTranslation} from "react-i18next";
 import {Link, useNavigate} from "react-router";
 import AppForm from "~/components/AppForm";
@@ -36,12 +36,12 @@ function Container() {
                 {({isSubmitting, isValid}) => (
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <Input name="firstname" autoFocus required label={t("label.firstname")}/>
-                            <Input name="lastname" required label={t("label.lastname")}/>
-                            <Input name="email" type="email" required label={t("label.mail")}/>
-                            <Input name="confirm-email" required label={t("label.confirm-mail")}/>
-                            <Input name="password" required type="password" label={t("label.password")}/>
-                            <Input name="confirm-password" required type="password" label={t("label.confirm-password")}/>
+                            <FormInput name="firstname" autoFocus required label={t("label.firstname")}/>
+                            <FormInput name="lastname" required label={t("label.lastname")}/>
+                            <FormInput name="email" type="email" required label={t("label.mail")}/>
+                            <FormInput name="confirm-email" required label={t("label.confirm-mail")}/>
+                            <FormInput name="password" required type="password" label={t("label.password")}/>
+                            <FormInput name="confirm-password" required type="password" label={t("label.confirm-password")}/>
                         </div>
                         <div className="flex flex-col items-center gap-2">
                             <Button disabled={isSubmitting || !isValid} type="submit" className="w-full max-w-[200px]" variant="primary" >{t("button.sign-up")}</Button>
