@@ -18,7 +18,7 @@ Go to [http://localhost:5173](http://localhost:5173) to test the app
 
 ## Test
 
-Test can be run in the frontend or backend
+Tests can be run in the frontend or backend
 ```shell
 npm run test
 ```
