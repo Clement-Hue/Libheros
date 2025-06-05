@@ -9,3 +9,15 @@ exports[`AuthController should create a user 1`] = `
   "taskLists": undefined,
 }
 `;
+
+exports[`AuthController should show error invalid email 1`] = `
+{
+  "code": "auth.invalid-credentials",
+}
+`;
+
+exports[`AuthController should show error invalid password 1`] = `
+{
+  "code": "auth.invalid-credentials",
+}
+`;
