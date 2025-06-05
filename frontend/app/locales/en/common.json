@@ -54,9 +54,6 @@
   },
   "error": {
     "unexpected": "An unexpected error occurred",
-    "auth": {
-      "invalid-credentials": "Password or email invalid"
-    },
     "task": {
       "not-found": "Task not found"
     },

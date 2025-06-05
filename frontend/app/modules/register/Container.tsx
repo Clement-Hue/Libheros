@@ -8,8 +8,8 @@ import * as Yup from "yup";
 import i18n from "i18next";
 
 const schema = Yup.object().shape({
-    firstname: Yup.string().required(),
-    lastname: Yup.string().required(),
+    firstName: Yup.string().required(),
+    lastName: Yup.string().required(),
     password: Yup.string().required(),
     email: Yup.string()
         .email()
@@ -28,7 +28,7 @@ function Container() {
         <Card className="gap-8">
             <div className="text-xl text-center font-bold underline">{t("title.register")}</div>
             <AppForm validationSchema={schema} initialValues={{
-               firstname: "", lastname: "", email: "", "confirm-email": "", password: "", "confirm-password": ""
+               firstName: "", lastName: "", email: "", "confirm-email": "", password: "", "confirm-password": ""
             }} onSubmit={async (values) => {
                     await api.register(values)
                     navigate("/")
@@ -36,8 +36,8 @@ function Container() {
                 {({isSubmitting, isValid}) => (
                     <div className="flex flex-col gap-4">
                         <div className="flex flex-col">
-                            <FormInput name="firstname" autoFocus required label={t("label.firstname")}/>
-                            <FormInput name="lastname" required label={t("label.lastname")}/>
+                            <FormInput name="firstName" autoFocus required label={t("label.firstname")}/>
+                            <FormInput name="lastName" required label={t("label.lastname")}/>
                             <FormInput name="email" type="email" required label={t("label.mail")}/>
                             <FormInput name="confirm-email" required label={t("label.confirm-mail")}/>
                             <FormInput name="password" required type="password" label={t("label.password")}/>
